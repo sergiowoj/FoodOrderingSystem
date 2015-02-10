@@ -15,7 +15,8 @@ public class RegisterDAO {
         String dbName = "cst8218";  
         String driver = "com.mysql.jdbc.Driver";  
         String userName = "root";  
-        String password = "root";  
+        String password = "root";
+        
         try {  
             Class.forName(driver).newInstance();  
             conn = DriverManager  

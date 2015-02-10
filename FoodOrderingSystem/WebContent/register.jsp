@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%
+	//Check if user is already logged in. If yes, redirect to Home page.
+	if(session.getAttribute("id") != null) response.sendRedirect("index.jsp");
+%>
+
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -62,7 +67,11 @@
 	  <div class="form-group">
 	    <label for="phone">Phone</label>
 	    <input name="phone" class="form-control" id="phone" placeholder="Enter your phone number">
-	  </div>  
+	  </div> 
+	  <div class="form-group">
+	    <label for="phone2">Phone</label>
+	    <input name="phone2" class="form-control" id="phone2" placeholder="Enter a different phone number">
+	  </div> 
 	  
 	  
 	  <div class="checkbox">

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DataManager 
 {
 	
-    private String dbURL = "jdbc:mysql://localhost:3306/cst8218";
+    private String dbURL = "jdbc:mysql://localhost:3306/fos";
     private String dbDriver = "com.mysql.jdbc.Driver";  
     private String dbUserName = "root";  
     private String dbPassword = "root";
