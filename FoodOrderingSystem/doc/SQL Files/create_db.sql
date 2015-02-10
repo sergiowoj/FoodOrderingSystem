@@ -1,5 +1,7 @@
+use cst8218;
+
 CREATE TABLE CUSTOMER(
-		CustomerID			Int				NOT NULL,
+		CustomerID		Int		AUTO_INCREMENT		NOT NULL,
 		FirstName 			Char(25)		NOT NULL,
 		LastName			Char(25)		NOT NULL,
 		Phone				Char(12)		NOT NULL,
@@ -10,12 +12,12 @@ CREATE TABLE CUSTOMER(
 		Address2			Char(100)		NULL,
 		City				Char(50)		NOT NULL,
 		Province			Char(50)		NOT NULL,
-		Zip					Char(6)			NOT NULL,
+		Postalcode			Char(8)			NOT NULL,
 		CONSTRAINT			CustomerPK		PRIMARY KEY(CustomerID)
 		);
 
 CREATE TABLE COOK(
-		CookID				Int				NOT NULL IDENTITY (1, 1),
+		CookID				Int		AUTO_INCREMENT		NOT NULL,
 		FirstName 			Char(25)		NOT NULL,
 		LastName			Char(25)		NOT NULL,
 		Phone				Char(12)		NOT NULL,
@@ -24,7 +26,7 @@ CREATE TABLE COOK(
 		);
 
 CREATE TABLE DELIVERY_GUY(
-		DeliveryID			Int				NOT NULL IDENTITY (1, 1),
+		DeliveryID			Int		AUTO_INCREMENT		NOT NULL,
 		FirstName 			Char(25)		NOT NULL,
 		LastName			Char(25)		NOT NULL,
 		Phone				Char(12)		NOT NULL,
@@ -33,7 +35,7 @@ CREATE TABLE DELIVERY_GUY(
 		);
 
 CREATE TABLE ITEM(
-		ItemID			Int				NOT NULL,
+		ItemID			Int		AUTO_INCREMENT		NOT NULL,
 		Name			Char (50)		NOT NULL,
 		Price			Decimal(3,2)	NULL,
 		Description		Varchar(500)	NULL,
@@ -41,7 +43,7 @@ CREATE TABLE ITEM(
 		);
 		
 CREATE TABLE INVOICE_ITEM(
-		Id				Int				NOT NULL,
+		Id				Int		AUTO_INCREMENT		NOT NULL,
 		InvoiceID		Int				NOT NULL,
 		ItemID			Int				NOT NULL,
 		Quantity		Int				NOT NULL,
@@ -56,7 +58,7 @@ CREATE TABLE STAGE(
 
 
 CREATE TABLE INVOICE(
-		InvoiceID			Int				NOT NULL,
+		InvoiceID			Int		AUTO_INCREMENT		NOT NULL,
 		DateIn				Date			NOT NULL,
 		DateOut				Date			NULL,
 		TotalAmount			Decimal(5,2)	NULL,
