@@ -18,41 +18,73 @@
 <title>MENU</title>
 <t:headcontents></t:headcontents>
 
+<script>
+
+function addToCart(id){
+    var productName = document.getElementById('productName'+id).innerHTML;
+    var productPrice = document.getElementById('productPrice'+id).innerHTML;
+    itemList.innerHTML += "<li>"+productName+"| CAD "+productPrice+"</li>"; 
+}
+
+
+</script>
+
 </head>
 <body>
 	<t:header></t:header>
+	
+	<div class="cart">
+		<h3>My selected itens</h3>
+		<div class="itens">
+			<ul id="itemList">
+				<li>Item 1 | <a href="" onclick="removeFromCart()">remove</a></li>
+				<li>Item 2 | <a href="" onclick="removeFromCart()">remove</a></li>
+			</ul>
+		</div>
+		<div class="totalprice">
+			Total price: CAD 
+		</div>
+	</div>
 
 	<div class="container">
 		<h1>MENU</h1>
 		<hr>
-		<form action="placeOrder" method="post">
-			<TABLE>
+			<table border=1 style="width: 100%;">
 				<%
-				String categorie = "";
+				String category = "";
 				ArrayList<ProductBean> menu = MenuDAO.listMenu();
+				out.println(menu.size());
 				for (ProductBean product : menu) {
-					if(!product.getCategory().equals(categorie)){
-						categorie = product.getCategory();
-						%><h3><%=categorie.toUpperCase() %></h3>
-				<%
+					if(!product.getCategory().equals(category)){
+						category = product.getCategory();
+						out.println("<tr><td><h2>" + category.toUpperCase() + "</h2></td></tr>");
 					}
-					%>
+				%>
 
-				<TR>
-					<TD>
-						<p><%=product.getName()%></p>
-						<hr> <br><%=product.getDescription() %></br> <i><%=product.getIngredients()%></i>
-					</TD>
-					<TD><i>CAD</i><%=product.getPrice()%></TD>
+				<tr>
+					<td>
+						<p id="productName<%=product.getId()%>">
+							<%=product.getName()%>
+						</p>
+						<hr> 
+						<%=product.getDescription() %>
+						<i><%=product.getIngredients()%></i>
+					</td>
+					<td>
+						<p id="productPrice<%=product.getId()%>">
+							<i>CAD </i> <%=product.getPrice()%> 
+						</p>
+					</td>
+					<td>
+						<button onclick="addToCart(<%=product.getId()%>)" id="<%=product.getId()%>">+</button>
+					</td>
 
-				</TR>
+				</tr>
+				
 				<%
 					}
 				%>
-			</TABLE>
-
-			<button type="submit" class="btn btn-default">Place Order</button>
-		</form>
+			</table>
 	</div>
 
 	<t:footer></t:footer>

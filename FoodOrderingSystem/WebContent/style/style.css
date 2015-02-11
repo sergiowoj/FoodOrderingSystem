@@ -17,3 +17,13 @@ body {
   background-color: #f5f5f5;
 }
 
+.cart {
+	background-color: white;
+	border: 1px solid #AAA;
+	padding: 10px;
+	position: fixed;
+	top:10%;
+	left: 0;
+}
+
+.cart ul li { list-style: none; }

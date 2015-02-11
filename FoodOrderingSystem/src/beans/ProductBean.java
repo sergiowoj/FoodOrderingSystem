@@ -2,21 +2,32 @@ package beans;
 
 public class ProductBean implements Comparable<ProductBean>
 {
-
+	private int id;
 	private String category;     
 	private String name;   
 	private String ingredients;    
 	private double price;    	
 	private String description;
+	private String size;
 
-	public ProductBean(String category, String name, String ingredients,
-			double price, String description) {
+	public ProductBean(int id, String category, String name, String ingredients,
+			double price, String description, String size) {
 		super();
+		this.id = id;
 		this.category = category;
 		this.name = name;
 		this.ingredients = ingredients;
 		this.price = price;
 		this.description = description;
+		this.size = size;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	
@@ -58,6 +69,14 @@ public class ProductBean implements Comparable<ProductBean>
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 
 	@Override
