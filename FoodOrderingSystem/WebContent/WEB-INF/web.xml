@@ -32,6 +32,16 @@
         <url-pattern>/register</url-pattern>  
     </servlet-mapping> 
     
+    <servlet>  
+        <servlet-name>placeOrder</servlet-name>  
+        <servlet-class>servlets.PlaceOrderServlet</servlet-class>  
+    </servlet>  
+  	
+  	<servlet-mapping>  
+        <servlet-name>placeOrder</servlet-name>  
+        <url-pattern>/placeOrder</url-pattern>  
+    </servlet-mapping> 
+    
     <welcome-file-list>  
         <welcome-file>index.jsp</welcome-file>  
     </welcome-file-list>  
