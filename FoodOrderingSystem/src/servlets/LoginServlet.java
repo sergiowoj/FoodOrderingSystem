@@ -22,9 +22,16 @@ public class LoginServlet extends HttpServlet {
         PrintWriter out = response.getWriter();    
           
         String email = request.getParameter("email");    
-        String password = request.getParameter("password");   
+        String password = request.getParameter("password");
+        
           
         HttpSession session = request.getSession(false);
+        
+        
+        
+        System.out.println("servlet path= " + request.getServletPath());
+        System.out.println("request URL= " + request.getRequestURL());
+        
   
         if(CustomerDAO.login(email, password)){
         	ArrayList<String> userInfo = CustomerDAO.getUserInfo(email);
@@ -35,8 +42,16 @@ public class LoginServlet extends HttpServlet {
 	        	session.setAttribute("email", userInfo.get(3));
         	}
         	
-            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");   
-            rd.forward(request,response);    
+        	if(request.getParameter("origin").equals("menu")){
+        		//System.out.println(request.getParameter("origin"));
+        		//rd = request.getRequestDispatcher("menu.jsp");  
+        		response.sendRedirect("menu.jsp");
+            } else {
+        	
+            	RequestDispatcher rd = request.getRequestDispatcher("index.jsp");   
+	            rd.forward(request,response);
+            }
+        	  
         }    
         else{    
             out.print("<p style=\"color:red\">Sorry username or password error</p>");    

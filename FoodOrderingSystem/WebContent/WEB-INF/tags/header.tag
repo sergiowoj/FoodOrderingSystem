@@ -14,7 +14,7 @@
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li><a href="index.jsp">Home</a></li>
-				<li><a href="order.jsp">Make an order</a></li>
+				<li><a href="menu.jsp">Make an order</a></li>
 				
 				<li><a href="about.jsp">About</a></li>
 				<li><a href="contact.jsp">Contact</a></li>
@@ -24,7 +24,7 @@
 				
 					<% if (session.getAttribute("id") != null) { %>
 						<li>
-							<a href="login.jsp">
+							<a href="profile.jsp">
 								<span class="glyphicon glyphicon-user"></span> 
 								<%=session.getAttribute("firstname") %>
 							</a>

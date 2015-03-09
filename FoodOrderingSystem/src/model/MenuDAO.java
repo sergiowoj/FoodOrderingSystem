@@ -34,11 +34,10 @@ public class MenuDAO {
             		+ "ORDER BY item.ItemID;");
             
             rs = pst.executeQuery();
-            int count = 0;
             menu = new ArrayList<ProductBean>();
             while (rs.next()) {
             	ProductBean product = new ProductBean(
-            			rs.getInt("id"),
+            			rs.getString("id"),
             			rs.getString("category"), 
             			rs.getString("name"),
             			rs.getString("ingredients"), 
@@ -48,7 +47,6 @@ public class MenuDAO {
             	
                 //Code to fill up your DTO
                 menu.add(product);
-                count++;
             }
             
             
@@ -79,7 +77,6 @@ public class MenuDAO {
             }  
         }  
 		Collections.sort(menu);
-		System.out.println(menu.size());
 		return menu;
 	}
 

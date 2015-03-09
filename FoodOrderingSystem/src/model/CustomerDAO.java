@@ -25,7 +25,7 @@ public class CustomerDAO {
             pst = conn.prepareStatement("SELECT CustomerID, FirstName, LastName, Email FROM customer WHERE Email = ? AND Password = ?");  
             pst.setString(1, email);
             pst.setString(2, password);
-            System.out.println(pst);
+           
             rs = pst.executeQuery();
             status  = rs.next();
             
@@ -56,7 +56,6 @@ public class CustomerDAO {
                 }  
             }  
         }  
-		 System.out.println("Status:" + status);
         return status;
 	}
 	

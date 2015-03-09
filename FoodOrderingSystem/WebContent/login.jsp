@@ -35,6 +35,7 @@
 	      <input type="checkbox"> Keep me logged in
 	    </label>
 	  </div>
+	  <input type="hidden" name="origin" value="menu">
 	  <button type="submit" class="btn btn-default">Login</button>
 	</form>
 

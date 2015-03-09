@@ -2,6 +2,9 @@
     <wb-module deploy-name="FoodOrderingSystem">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="java-json.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/D:/Users/Sergio/Downloads/java-json.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="FoodOrderingSystem"/>
         <property name="java-output-path" value="/FoodOrderingSystem/build/classes"/>
     </wb-module>
