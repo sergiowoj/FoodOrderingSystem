@@ -31,36 +31,17 @@
         <servlet-name>register</servlet-name>  
         <url-pattern>/register</url-pattern>  
     </servlet-mapping> 
-    
-    <servlet>  
-        <servlet-name>placeOrder</servlet-name>  
-        <servlet-class>servlets.PlaceOrderServlet</servlet-class>  
-    </servlet>  
   	
   	<servlet-mapping>  
-        <servlet-name>placeOrder</servlet-name>  
-        <url-pattern>/placeOrder</url-pattern>  
+        <servlet-name>checkout</servlet-name>  
+        <url-pattern>/checkout</url-pattern>  
     </servlet-mapping> 
     
     <servlet>  
-        <servlet-name>addToCart</servlet-name>  
-        <servlet-class>servlets.AddToCartServlet</servlet-class>  
+        <servlet-name>checkout</servlet-name>  
+        <servlet-class>servlets.CheckoutServlet</servlet-class>  
     </servlet>  
-  	
-  	<servlet-mapping>  
-        <servlet-name>addToCart</servlet-name>  
-        <url-pattern>/addToCart</url-pattern>  
-    </servlet-mapping> 
-    
-    <servlet>  
-        <servlet-name>removeFromCart</servlet-name>  
-        <servlet-class>servlets.RemoveFromCartServlet</servlet-class>  
-    </servlet>  
-  	
-  	<servlet-mapping>  
-        <servlet-name>removeFromCart</servlet-name>  
-        <url-pattern>/removeFromCart</url-pattern>  
-    </servlet-mapping> 
+
     
     <welcome-file-list>  
         <welcome-file>index.jsp</welcome-file>  

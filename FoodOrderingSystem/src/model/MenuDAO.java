@@ -25,13 +25,13 @@ public class MenuDAO {
 			conn = new DataManager().getConnection();
   
             pst = conn.prepareStatement(""
-            		+ "SELECT item.ItemID as id, item.Name as name, item.Price as price, "
-            		+ "item.Description as description, item.Ingredients as ingredients, "
-            		+ "size.Name as size, category.Name as category "
+            		+ "SELECT item.id as id, item.name as name, item.price as price, "
+            		+ "item.description as description, item.ingredients as ingredients, "
+            		+ "size.name as size, category.name as category "
             		+ "FROM item "
-            		+ "INNER JOIN size ON item.Size = size.SizeID "
-            		+ "INNER JOIN category ON item.Category = category.CategoryID "
-            		+ "ORDER BY item.ItemID;");
+            		+ "INNER JOIN size ON item.size_id = size.id "
+            		+ "INNER JOIN category ON item.category_id = category.id "
+            		+ "ORDER BY item.id;");
             
             rs = pst.executeQuery();
             menu = new ArrayList<ProductBean>();

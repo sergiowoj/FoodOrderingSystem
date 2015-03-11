@@ -20,19 +20,26 @@ public class RegisterServlet extends HttpServlet {
 		
 		CustomerBean customer;
 		PrintWriter out = response.getWriter();
+		String subscribed;
+		
+		if(request.getParameter("subscribed") != null)
+			subscribed = "yes";
+		else
+			subscribed = "no";
 		
 		customer = new CustomerBean(
 				request.getParameter("password"),
 				request.getParameter("firstname"),
 				request.getParameter("lastname"),
-				request.getParameter("address1"),
-				request.getParameter("address2"),
-				request.getParameter("city"),
-				request.getParameter("province"),
-				request.getParameter("postalcode"),
+//				request.getParameter("address1"),
+//				request.getParameter("address2"),
+//				request.getParameter("city"),
+//				request.getParameter("province"),
+//				request.getParameter("postalcode"),
 				request.getParameter("email"),
 				request.getParameter("phone"),
-				request.getParameter("phone2")
+				request.getParameter("phone2"),
+				subscribed
 				);
 		
 		if(CustomerDAO.register(customer) > 0){

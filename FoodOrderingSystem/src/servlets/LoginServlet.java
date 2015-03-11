@@ -23,15 +23,8 @@ public class LoginServlet extends HttpServlet {
           
         String email = request.getParameter("email");    
         String password = request.getParameter("password");
-        
-          
+             
         HttpSession session = request.getSession(false);
-        
-        
-        
-        System.out.println("servlet path= " + request.getServletPath());
-        System.out.println("request URL= " + request.getRequestURL());
-        
   
         if(CustomerDAO.login(email, password)){
         	ArrayList<String> userInfo = CustomerDAO.getUserInfo(email);

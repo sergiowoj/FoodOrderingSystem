@@ -6,6 +6,7 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
 .footer {
   padding-top: 20px;
   margin-top: 20px;
@@ -27,5 +28,10 @@ body {
 }
 
 .cart ul li { list-style: none; }
+
+/* CHECKOUT */
+
+.checkout { padding-bottom: 20px; }
+.checkout .address { background-color: #EEE; border-radius: 5px; padding: 10px; }
 
 /* PROFILE MENU */

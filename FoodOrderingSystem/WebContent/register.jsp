@@ -42,7 +42,7 @@
 	    <label for="password-conf">Password</label>
 	    <input name="password-conf" class="form-control" id="password-conf" placeholder="Confirm your password">
 	  </div>
-	  
+	 <!--  
 	  <h3>Address</h3>
 	  <div class="form-group">
 	    <label for="address1">Address Line 1</label>
@@ -64,6 +64,7 @@
 	    <label for="postalcode">Postal Code / ZIP</label>
 	    <input name="postalcode" class="form-control" id="postalcode" placeholder="Enter your postal code / ZIP">
 	  </div>
+	   -->
 	  <div class="form-group">
 	    <label for="phone">Phone</label>
 	    <input name="phone" class="form-control" id="phone" placeholder="Enter your phone number">
@@ -76,7 +77,7 @@
 	  
 	  <div class="checkbox">
 	    <label>
-	      <input type="checkbox"> I want to receive news and information about promotions in my email.
+	      <input type="checkbox" name="subscribed" value="subscribe"> I want to receive news and information about promotions in my email.
 	    </label>
 	  </div>
 	  <button type="submit" class="btn btn-default">Register</button>
