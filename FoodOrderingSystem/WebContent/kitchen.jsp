@@ -6,89 +6,15 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
 
-<%
-	//Check if user is already logged in. If yes, redirect to Home page.
-	if (session.getAttribute("id") != null)
-		response.sendRedirect("index.jsp");
-%>
-
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" >
-<META http-equiv="REFRESH" content="30">
-<title>KITCHEN</title>
+<META http-equiv="REFRESH" content="10">
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<title>Kitchen</title>
+
 <t:headcontents></t:headcontents>
-
-<script>
-function updateCart(response){
-	$('#itemList').html('');
-	var obj = response;
-	var html = '';
-	var totalPrice = 0;
-	var count = 0;
-	
-    $.each(obj, function() {
-		html +=	"<li>"+this['name']+"| CAD "+this['price'].toFixed(2)+"<button class=\"removeFromCart\" id=\""+this['id']+"\">x</button></li>";
-		totalPrice += parseFloat(this['price']);;
-		count+=1;
-	})
-    $('#itemList').append(html);
-    $('.totalprice').html('Total price: ' + totalPrice.toFixed(2) + ' CAD');
-    
-    //$('#buttonorder').show();
-    
-    	
-}
-
-$(document).ready(function() {
-	$.ajax({
-        url : 'listcart.jsp',
-        data : {},
-        success : function(response) {
-        	updateCart(response);
-        }
-    });
-});
-
-$(document).ready(function() {
-    $('.addToCart').click(function(event) {
-    	var itemId = event.target.id;
-    	var itemName = $('#productName'+itemId).text();
-    	var itemPrice = $('#productPrice'+itemId).text();
-        $.ajax({
-            url : 'addtocart.jsp',
-            data : {
-                itemId : event.target.id,
-                itemName : $('#productName'+itemId).text(),
-                itemPrice : $('#productPrice'+itemId).text()
-            },
-            success : function(response) {
-            	updateCart(response);
-            }
-        });
-    });
-});
-
-$(document).ready(function() {
-    $('#itemList').on('click', '.removeFromCart', function(event) {
-    	var itemId = event.target.id;
-        $.ajax({
-            url : 'removefromcart.jsp',
-            data : {
-                itemId : itemId,
-            },
-            success : function(response) {
-            	updateCart(response);
-            }
-        });
-    });
-});
-
-</script>
 
 </head>
 <body>
