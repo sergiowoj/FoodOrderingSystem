@@ -42,6 +42,36 @@
         <servlet-class>servlets.CheckoutServlet</servlet-class>  
     </servlet>  
 
+    <servlet-mapping>  
+        <servlet-name>profileChange</servlet-name>  
+        <url-pattern>/profileChange</url-pattern>  
+    </servlet-mapping> 
+    
+    <servlet>  
+        <servlet-name>profileChange</servlet-name>  
+        <servlet-class>servlets.ProfileServlet</servlet-class>  
+    </servlet>  
+    
+    <servlet-mapping>  
+        <servlet-name>pwdChange</servlet-name>  
+        <url-pattern>/pwdChange</url-pattern>  
+    </servlet-mapping> 
+    
+    <servlet>  
+        <servlet-name>pwdChange</servlet-name>  
+        <servlet-class>servlets.ProfileServlet</servlet-class>  
+    </servlet>  
+    
+    <servlet-mapping>  
+        <servlet-name>changeAddress</servlet-name>  
+        <url-pattern>/changeAddress</url-pattern>  
+    </servlet-mapping> 
+    
+    <servlet>  
+        <servlet-name>changeAddress</servlet-name>  
+        <servlet-class>servlets.ProfileServlet</servlet-class>  
+    </servlet>  
+    
     
     <welcome-file-list>  
         <welcome-file>index.jsp</welcome-file>  

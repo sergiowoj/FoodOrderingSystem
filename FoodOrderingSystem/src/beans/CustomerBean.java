@@ -137,4 +137,13 @@ public class CustomerBean
 		this.subscribed = subscribed;
 	}
 
+	@Override
+	public String toString() {
+		return "CustomerBean [password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", phone=" + phone + ", phone2=" + phone2 + ", subscribed="
+				+ subscribed + "]";
+	}
+
+	
 }
