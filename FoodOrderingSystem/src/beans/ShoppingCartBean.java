@@ -74,6 +74,9 @@ public class ShoppingCartBean {
 		int orderId = 0;
 		// get the id of the last created order
 		String lastOrderId = OrderDAO.getLastOrderId();
+		if(lastOrderId == ""){
+			lastOrderId = "1";
+		}
 		orderId = Integer.parseInt(lastOrderId) + 1;
 		
 		// create order

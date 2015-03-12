@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
         	if(request.getParameter("origin").equals("menu")){
         		//System.out.println(request.getParameter("origin"));
         		//rd = request.getRequestDispatcher("menu.jsp");  
-        		response.sendRedirect("menu.jsp");
+        		response.sendRedirect("checkout.jsp");
             } else {
         	
             	RequestDispatcher rd = request.getRequestDispatcher("index.jsp");   

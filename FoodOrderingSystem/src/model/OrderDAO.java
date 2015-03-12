@@ -166,5 +166,46 @@ public class OrderDAO {
         }
 		return status;
 	}
+	
+	public static void listOpenOrders(){
+		ResultSet rs = null;
+		boolean status = false;
+		String id = "";
+		try {  
+            //Class.forName(driver).newInstance();  
+			conn = new DataManager().getConnection();
+  
+            pst = conn.prepareStatement("SELECT id FROM `order` ORDER BY id DESC LIMIT 1");  
+           
+            rs = pst.executeQuery();
+            status = rs.next();
+            id = rs.getString("id");
+            
+		} catch (Exception e) {  
+            System.out.println(e);  
+        } finally {  
+            if (conn != null) {  
+                try {  
+                    conn.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (pst != null) {  
+                try {  
+                    pst.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (rs != null) {  
+                try {  
+                    rs.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+        }  
+	}
 
 }
