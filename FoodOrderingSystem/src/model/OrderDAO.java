@@ -3,6 +3,8 @@ package model;
 import java.sql.*;
 import java.util.ArrayList;
 
+import beans.KitchenBean;
+import beans.OrderBean;
 import beans.ProductBean;
 
 public class OrderDAO {
@@ -138,7 +140,7 @@ public class OrderDAO {
 				+ "id , date_in , date_out , total_amount , subtotal_amount , taxes ,"
 				+ "discount , customer_id , cook_id , delivery_id , stage_id "
 				+ ") VALUES "
-				+ "( "+orderId+", NOW(), NULL, "+orderTotal+", "+subTotal+", "+taxes+", "+discount+", "+customerId+", 0, 0, 0 )";
+				+ "( "+orderId+", NOW(), NULL, "+orderTotal+", "+subTotal+", "+taxes+", "+discount+", "+customerId+", 0, 0, 1 )";
 		
 		try {  
             //Class.forName(driver).newInstance();  
@@ -167,19 +169,42 @@ public class OrderDAO {
 		return status;
 	}
 	
-	public static void listOpenOrders(){
+	public static void updateKitchen(){
 		ResultSet rs = null;
-		boolean status = false;
-		String id = "";
 		try {  
             //Class.forName(driver).newInstance();  
 			conn = new DataManager().getConnection();
   
-            pst = conn.prepareStatement("SELECT id FROM `order` ORDER BY id DESC LIMIT 1");  
+            pst = conn.prepareStatement(""
+            		+ "SELECT `order`.id, `order`.date_in, order_item.item_id, "
+            		+ "order_item.quantity, item.`name`, stage.name as stage "
+            		+ "FROM `order` "
+            		+ "INNER JOIN order_item ON `order`.id = order_item.order_id "
+            		+ "INNER JOIN item ON item.id = order_item.item_id "
+            		+ "INNER JOIN stage ON `order`.stage_id = stage.id "
+            		+ "WHERE `stage`.name = \"Open\" "
+            		+ "ORDER BY `order`.id ASC");
+            		//+ "WHERE stage.name LIKE \"Open\"");  
            
             rs = pst.executeQuery();
-            status = rs.next();
-            id = rs.getString("id");
+            // status = rs.next();
+            KitchenBean.clearOrdersList();
+            while(rs.next()){
+            	OrderBean order = new OrderBean(
+            			rs.getString("id"),
+            			rs.getString("date_in"),
+            			rs.getString("item_id"),
+            			rs.getString("quantity"),
+            			rs.getString("name"),
+            			rs.getString("stage")
+            			);
+            	System.out.println(rs.getString("id"));
+            	System.out.println(rs.getString("quantity"));
+            	System.out.println(rs.getString("name"));
+            	System.out.println("----------------------------------------------------");
+            	KitchenBean.insertOrder(order);
+            }
+
             
 		} catch (Exception e) {  
             System.out.println(e);  

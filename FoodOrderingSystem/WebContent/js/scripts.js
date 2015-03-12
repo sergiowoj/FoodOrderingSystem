@@ -7,12 +7,12 @@ function updateCart(response){
 
 	if(obj.length != 0){
 	    $.each(obj, function() {
-			html +=	"<li>"+this['quantity']+" x "+this['name']+"| CAD "+this['price'].toFixed(2)+"<button class=\"removeFromCart\" id=\""+this['id']+"\">x</button></li>";
-			totalPrice += parseFloat(this['price']);
+			html +=	"<li class=\"row\"><span class=\"col-xs-8\">"+this['quantity']+" x "+this['name']+"</span> <span class=\"col-xs-4 price\"> $"+this['price'].toFixed(2)+" <button type=\"button\" class=\"removeFromCart btn btn-xs\" id=\""+this['id']+"\">x</button></span></li>";
+			totalPrice += parseFloat(this['totalPrice']);
 			count+=1;
 		})
 	    $('#itemList').append(html);
-	    $('.totalprice').html('Total price: ' + totalPrice.toFixed(2) + ' CAD');
+	    $('.totalprice').html('Total price: $' + totalPrice.toFixed(2));
 	    $(".placeOrder").removeAttr('disabled');
 	} 
 	else {

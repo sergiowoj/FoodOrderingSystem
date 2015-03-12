@@ -87,8 +87,7 @@ public class ShoppingCartBean {
 			}
 		}
 		
-		// add address to address book
-		// make payment
+		OrderDAO.updateKitchen();
 	}
 	
 	public ArrayList<String> listName(){

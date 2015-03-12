@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
 <%@ page import="beans.ProductBean"%>
 <%@ page import="model.MenuDAO"%>
 <%@ page import="java.util.ArrayList"%>
@@ -44,6 +45,7 @@ $(document).ready(function() {
     	$('.modal-login').css('display', 'none');
     	$('.modal-register').css('display', 'block');
     }); 
+    
 });
 
 
@@ -52,63 +54,77 @@ $(document).ready(function() {
 </head>
 <body>
 	<t:header></t:header>
-
-	<div class="cart">
-		<h3>My items</h3>
-		<div class="itens">
-			<ul id="itemList">
-			</ul>
-		</div>
-		<div class="totalprice"></div>
-		<div class="placeorder">
-			<!--style="visibility:hidden-->
-			<% if(session.getAttribute("id") == null){ %>
-			<button class="btn btn-default placeOrder" id="showLoginModal">Checkout</button>
-			<% } else { %>
-			<a href="checkout.jsp" class="btn btn-default placeOrder">Checkout</a>
-			<% } %>
-		</div>
-
-
-
-	</div>
-
 	<div class="container">
-		<h1>MENU</h1>
-		<hr>
-		<table border=1 style="width: 100%;">
-			<%
-				String category = "";
-				ArrayList<ProductBean> menu = MenuDAO.listMenu();
-				out.println(menu.size());
-				for (ProductBean product : menu) {
-					if(!product.getCategory().equals(category)){
-						category = product.getCategory();
-						out.println("<tr><td><h2>" + category.toUpperCase() + "</h2></td></tr>");
-					}
-				%>
-
-			<tr>
-				<td>
-					<div id="productName<%=product.getId()%>"><%=product.getName()%></div>
-					<hr> <%=product.getDescription() %> <i><%=product.getIngredients()%></i>
-				</td>
-				<td>
-					<div id="productPrice<%=product.getId()%>"><%=product.getPrice()%></div>
-					<i>CAD</i>
-				</td>
-				<td>
-					<button class="addToCart" id="<%=product.getId()%>">+</button>
-				</td>
-
-			</tr>
-
-			<%
-					}
-				%>
-		</table>
+		<div class="row">
+			<div class="menu col-xs-12 col-md-8">
+				<div class="row">
+					<%
+						String category = "";
+						ArrayList<ProductBean> menu = MenuDAO.listMenu();
+		
+						for (ProductBean product : menu) {
+							if(!product.getCategory().equals(category)){
+								out.println("</div>");
+								category = product.getCategory();
+								out.println("<div class=\"row\"><h2>" + category + "</h2></div>");
+								out.println("<div class=\"row\">");
+							}
+						%>
+		
+					<div class="col-xs-12 col-md-6">
+						<div class="thumbnail">
+							<div>
+								<div id="productName<%=product.getId()%>" class="productname"><%=product.getName()%></div>
+								<i><%=product.getDescription() %></i> 
+								<%=product.getIngredients()%>
+							</div>
+							<div class="price-add">
+								<div class="add">
+									<button class="addToCart btn btn-default btn-md" id="<%=product.getId()%>">+</button>
+								</div>
+								<div class="price">
+									<span>$</span>
+									<span id="productPrice<%=product.getId()%>"><%=product.getPrice()%></span>
+								</div>
+								
+								<div class="clearfix"></div>
+							</div>
+							
+						</div>
+					</div>
+		
+					<%
+							}
+						%>
+				</div>
+			
+			</div>
+			<div class="cart col-xs-6 col-md-4">
+				<div class="myitems panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">My items</h3>
+					</div>
+					<div class="items col-xs-12">
+						<ul id="itemList">
+						</ul>
+					</div>
+					<div class="col-xs-12">
+						<div class="totalprice pull-right"></div>
+					</div>
+					<div class="col-xs-12">
+						<!--style="visibility:hidden-->
+						<% if(session.getAttribute("id") == null){ %>
+						<button class="btn btn-block btn-default placeOrder" id="showLoginModal">Checkout</button>
+						<% } else { %>
+						<a href="checkout.jsp" class="btn btn-block btn-default placeOrder">Checkout</a>
+						<% } %>
+					</div>
+				</div>
+			</div>
+			
+			
+		</div>
 	</div>
-
 	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
 		aria-labelledby="loginModal" aria-hidden="true">
 		<div class="modal-dialog">
