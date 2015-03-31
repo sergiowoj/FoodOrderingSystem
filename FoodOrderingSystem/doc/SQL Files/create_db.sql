@@ -129,6 +129,7 @@ CREATE TABLE `order` (
   `subtotal_amount` decimal(5,2) NOT NULL,
   `taxes` decimal(5,2) NOT NULL,
   `discount` decimal(5,2) DEFAULT NULL,
+  `delivery_address_id` int(11) DEFAULT NULL,
   `customer_id` int(11) NOT NULL,
   `cook_id` int(11) DEFAULT NULL,
   `delivery_id` int(11) DEFAULT NULL,
