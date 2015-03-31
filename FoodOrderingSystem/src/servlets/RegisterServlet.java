@@ -28,14 +28,8 @@ public class RegisterServlet extends HttpServlet {
 			subscribed = "no";
 		
 		customer = new CustomerBean(
-				request.getParameter("password"),
 				request.getParameter("firstname"),
 				request.getParameter("lastname"),
-//				request.getParameter("address1"),
-//				request.getParameter("address2"),
-//				request.getParameter("city"),
-//				request.getParameter("province"),
-//				request.getParameter("postalcode"),
 				request.getParameter("email"),
 				request.getParameter("phone"),
 				request.getParameter("phone2"),

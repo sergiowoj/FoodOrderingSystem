@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import beans.AddressBean;
 import beans.CustomerBean;
+import beans.ProductBean;
 import model.DataManager;
 
 public class CustomerDAO {
@@ -133,7 +135,7 @@ public class CustomerDAO {
 
 			System.out.println(pst);
 
-			//status = pst.executeUpdate();  
+			status = pst.executeUpdate();  
 
 		} catch (Exception e) {  
 			System.out.println(e);  
@@ -156,27 +158,37 @@ public class CustomerDAO {
 		return status;
 
 	}
-
-	public static ArrayList<String> getUserInfo(String email){
+	
+	public static ArrayList<AddressBean> getCustomerAddresses(String id){
 		ResultSet rs = null;
-		ArrayList<String> userInfo = new ArrayList<>();
+		ArrayList<AddressBean> addresses = new ArrayList<>();
 		try {  
-			//Class.forName(driver).newInstance();  
 			conn = new DataManager().getConnection();
 
-			pst = conn.prepareStatement("SELECT id, first_name, last_name, email FROM customer WHERE email = ?"); 
-			System.out.println(pst);
-			pst.setString(1, email);
-
-			System.out.println(pst);
-
+			pst = conn.prepareStatement(""
+					+ "SELECT id, alias, address1, address2, city, province, postal_code, "
+					+ "phone, buzzer_number FROM address "
+					+ "WHERE customer_id = "+id); 
+			
 			rs = pst.executeQuery();
 			rs.next();
+			
+			 while (rs.next()) {
+	            	AddressBean address = new AddressBean(
+	            			rs.getString("id"),
+	            			rs.getString("alias"),
+	            			rs.getString("address1"),
+	            			rs.getString("address2"),
+	            			rs.getString("city"),
+	            			rs.getString("province"),
+	            			rs.getString("postal_code"),
+	            			rs.getString("phone"),
+	            			rs.getString("buzzer_number"),
+	            			id
+	            			);
 
-			userInfo.add(0, rs.getString("id"));
-			userInfo.add(1, rs.getString("first_name"));
-			userInfo.add(2, rs.getString("last_name"));
-			userInfo.add(3, rs.getString("email"));
+	                addresses.add(address);
+	            }
 
 		} catch (Exception e) {  
 			System.out.println(e);  
@@ -203,7 +215,7 @@ public class CustomerDAO {
 				}  
 			}  
 		}  
-		return userInfo;
+		return addresses;	
 	}
 
 	public void edit(){
@@ -211,37 +223,30 @@ public class CustomerDAO {
 	}
 
 
-	public static CustomerBean getCustomer(String id){
+	public static CustomerBean getCustomer(String email){
 		ResultSet rs = null;
 
 		try {  
 			conn = new DataManager().getConnection();
 			pst = conn.prepareStatement(""
-					+ "SELECT first_name , last_name , phone, phone2, "
+					+ "SELECT id, first_name , last_name , phone, phone2, "
 					+ "email, password, subscribed "
-					+ "FROM customer WHERE id = "+id);
-
+					+ "FROM customer WHERE email = '"+email+"'");
 			rs = pst.executeQuery();
-			//			CustomerBean(String password, String firstName,
-			//					String lastName, String email, String phone, String phone2, String subscribed)
+			
 			while (rs.next()) {
 				customer = new CustomerBean(
-						rs.getString("password"),
 						rs.getString("first_name"), 
 						rs.getString("last_name"),
 						rs.getString("email"), 
 						rs.getString("phone"), 
 						rs.getString("phone2"),
-						rs.getString("subscribed"));
-				System.out.println(customer.toString());
+						rs.getString("subscribed")
+						);
+				customer.setId(rs.getString("id"));
+				customer.setAddresses(getCustomerAddresses(rs.getString("id")));
 			}
-			//			System.out.printf(rs.getString("password")+
-			//					rs.getString("first_name")+ 
-			//					rs.getString("last_name")+
-			//					rs.getString("email")+ 
-			//					rs.getString("phone")+ 
-			//					rs.getString("phone2")+
-			//					rs.getString("subscribed"));
+
 		} catch (Exception e) {  
 			System.out.println(e);  
 		} finally {  

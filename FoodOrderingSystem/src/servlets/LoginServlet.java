@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import beans.CustomerBean;
 import model.CustomerDAO;
 
 public class LoginServlet extends HttpServlet {
@@ -27,12 +28,14 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
   
         if(CustomerDAO.login(email, password)){
-        	ArrayList<String> userInfo = CustomerDAO.getUserInfo(email);
+        	CustomerBean customer = CustomerDAO.getCustomer(email);
+        	
         	if(session!=null){
-	        	session.setAttribute("id", userInfo.get(0));
-	        	session.setAttribute("firstname", userInfo.get(1));
-	        	session.setAttribute("lastname", userInfo.get(2));
-	        	session.setAttribute("email", userInfo.get(3));
+	        	session.setAttribute("id", customer.getId());
+	        	session.setAttribute("firstname", customer.getFirstName());
+	        	session.setAttribute("lastname", customer.getLastName());
+	        	session.setAttribute("email", customer.getEmail());
+	        	session.setAttribute("customer", customer);
         	}
         	
         	if(request.getParameter("origin").equals("menu")){

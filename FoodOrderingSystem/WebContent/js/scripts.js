@@ -13,12 +13,12 @@ function updateCart(response){
 		})
 	    $('#itemList').append(html);
 	    $('.totalprice').html('Total price: $' + totalPrice.toFixed(2));
-	    $(".placeOrder").removeAttr('disabled');
+	    $('.placeOrder').removeAttr('disabled');
 	} 
 	else {
 		var noItem = "No items selected";
 		$('#itemList').append(noItem);
-		$(".placeOrder").attr('disabled', 'true');
+		$('.placeOrder').attr('disabled', 'true');
 		$('.totalprice').html('');
 	}
 }
@@ -62,3 +62,75 @@ function listCart(){
         }
     });
 }
+
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+function updateCheckoutAddressForm(response){
+	$('#alias').attr('value', response[0]['alias']);
+	$('#address1').attr('value', response[0]['address1']);
+	$('#address2').attr('value', response[0]['address2']);
+	$('#city').attr('value', response[0]['city']);
+	$('#province').attr('value', response[0]['province']);
+	$('#postalcode').attr('value', response[0]['postalCode']);
+	$('#phone').attr('value', response[0]['phone']);
+	$('#buzzer').attr('value', response[0]['buzzerNumber']);
+}
+
+function initialCheckoutAddressForm(){
+	$.ajax({
+        url : 'getAddresses.jsp',
+        data : {},
+        success : function(response) {
+        	var options = '';
+        	if(response.length != 0){
+        		$.each(response, function(){
+        			options += "<option value='"+this["id"]+"'>"+this["alias"].capitalizeFirstLetter()+"</option>"
+        		});
+        		$('#selectaddress').html(options);
+        		$('#selectaddress').append("<option value='newaddress'>New Address</option>");
+        		updateCheckoutAddressForm(response);
+        	}
+        }
+    });
+}
+
+function changeCheckoutAddressForm(addressid){
+	$.ajax({
+        url : 'getAddresses.jsp',
+        data : {},
+        success : function(response) {
+        	var options = '';
+        	if(response.length != 0){
+        		$.each(response, function(){
+        			console.log(this["id"]);
+        			if(this["id"] == addressid){
+        				updateCheckoutAddressForm(this)
+        			}
+        		})
+        	}
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

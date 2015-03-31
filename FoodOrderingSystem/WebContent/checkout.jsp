@@ -15,7 +15,6 @@
 	
 	
 	request.getSession().setAttribute("cart", cart);
-	//request.getRequestDispatcher("/WEB-INF/checkout.jsp").forward(request, response);
 %>
 
 
@@ -40,6 +39,12 @@
 			$(".payatdoor").css('display', 'none');
 			$(".payonline").css('display', 'block');
 		});
+		
+		initialCheckoutAddressForm();
+		$('#selectaddress').change(function(event){
+			changeCheckoutAddressForm(event.target.value)
+		});
+		
 
 	});
 </script>
@@ -85,76 +90,87 @@
 			<form method="post" action="checkout">
 				<div class="address">
 					<h3>Delivery address</h3>
-					<p>Insert the delivery address for this order.</p>
-
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="alias">Set an Alias for this address</label> <input
-										name="alias" class="form-control" id="alias"
-										placeholder="(Home, Work, Joe's house...)">
+					
+					<div class="deliveryaddress">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="selectaddress">Select the desired delivery address</label>
+										<select class="form-control" name="selectaddress" id="selectaddress">
+											<option value="">New address</option>
+										</select>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="address1">Address Line 1</label> <input
-										name="address1" class="form-control" id="address1"
-										placeholder="Enter your street address, P.O. box, company name, c/o">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="alias">Set an Alias for this address</label> 
+										<input name="alias" class="form-control" id="alias"
+											placeholder="(Home, Work, Joe's house...)">
+									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="address2">Address Line 2 (optional)</label> <input
-										name="address2" class="form-control" id="address2"
-										placeholder="Enter your apartment, suite, unit, building, floor, etc.">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="address1">Address Line 1</label> <input
+											name="address1" class="form-control" id="address1"
+											placeholder="Enter your street address, P.O. box, company name, c/o">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="address2">Address Line 2 (optional)</label> <input
+											name="address2" class="form-control" id="address2"
+											placeholder="Enter your apartment, suite, unit, building, floor, etc.">
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="city">City</label> <input name="city"
-										class="form-control" id="city" placeholder="City">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="city">City</label> <input name="city"
+											class="form-control" id="city" placeholder="City">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="province">Province</label> <input name="province"
+											class="form-control" id="province" placeholder="Province">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="postalcode">Postal Code / ZIP</label> <input
+											name="postalcode" class="form-control" id="postalcode"
+											placeholder="Enter your postal code / ZIP">
+									</div>
 								</div>
 							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="province">Province</label> <input name="province"
-										class="form-control" id="province" placeholder="Province">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="phone">Phone</label> <input name="phone"
+											class="form-control" id="phone"
+											placeholder="Enter your phone number">
+									</div>
 								</div>
-							</div>
-							<div class="col-md-4">
-								<div class="form-group">
-									<label for="postalcode">Postal Code / ZIP</label> <input
-										name="postalcode" class="form-control" id="postalcode"
-										placeholder="Enter your postal code / ZIP">
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="phone">Phone</label> <input name="phone"
-										class="form-control" id="phone"
-										placeholder="Enter your phone number">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="buzzer">Buzzer number</label> <input name="buzzer"
-										class="form-control" id="buzzer"
-										placeholder="Does your house have a particular buzzer number? Enter it here!">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="buzzer">Buzzer number</label> <input name="buzzer"
+											class="form-control" id="buzzer"
+											placeholder="Does your house have a particular buzzer number? Enter it here!">
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="checkbox">
-						<label> <input type="checkbox" name="saveaddress"> Save this address
+						<!-- <label> <input type="checkbox" name="saveaddress"> Save this address
 							in my address book.
-						</label>
+						</label> -->
 					</div>
 				</div>
 

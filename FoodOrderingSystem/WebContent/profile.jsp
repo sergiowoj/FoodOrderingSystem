@@ -3,6 +3,7 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ page import="beans.CustomerBean"%>
 <%@ page import="model.CustomerDAO"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -37,6 +38,7 @@ $(document).ready(function(){
 		}
 	});
 });
+
 </script>
 
 </head>
@@ -47,14 +49,14 @@ $(document).ready(function(){
     <div class="row">
         <div class="col-md-3">
             <ul class="nav nav-pills nav-stacked">
-                <li class="active" onclick="doclick();"><a href="#"><i class="fa fa-pencil fa-fw-1x fa-spin"></i>User Profile</a></li>
-                <li><a href="#" class="showContent" id="profile"><i class="fa fa-list-alt fa-fw-1x fa-spin"></i>Update Profile</a></li>
-                <li><a href="#" class="showContent" id="password" ><i class="fa fa-file-o fa-fw-1x fa-spin"></i>Change Password</a></li>
-                <li><a href="#" class="showContent" id="address"><i class="fa fa-home fa-fw-1x fa-spin"></i>Update Address</a></li>
+                <li class="active" onclick="doclick();"><a href="#"><i class="fa fa-pencil fa-fw-1x"></i>User Profile</a></li>
+                <li><a href="#" class="showContent" id="profile"><i class="fa fa-list-alt fa-fw-1x"></i>Update Profile</a></li>
+                <li><a href="#" class="showContent" id="password" ><i class="fa fa-file-o fa-fw-1x"></i>Change Password</a></li>
+                <li><a href="#" class="showContent" id="address"><i class="fa fa-home fa-fw-1x"></i>Update Address</a></li>
             </ul>
         </div>
         <%
-        CustomerBean c = CustomerDAO.getCustomer(session.getAttribute("id").toString());
+        	CustomerBean c = CustomerDAO.getCustomer(session.getAttribute("id").toString());
         %>
         <div style="display:none" id= "profileForm" class="col-md-9 well">
         <h3>Update Profile</h3>
@@ -117,6 +119,7 @@ $(document).ready(function(){
 			</div>   <!-- END PWD FROM --> 
         <%
         String address[] = CustomerDAO.getCustomerAddress(session.getAttribute("id").toString());			
+        //String address[] = {"", "", "", "", "", ""};
         %>
         <div style="display:none" id="addressForm" class="col-md-9 well" >
 				<h3>Update Address</h3>

@@ -1,45 +1,44 @@
 package beans;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+
 public class CustomerBean
 {
-    //private String id;         	//Username
+	private String id;
     private String password;    //Password    
     private String firstName;   //First Name
     private String lastName;    //Last Name
-//    private String address1;    //Address 1
-//    private String address2;    //Address 2
-//    private String city;        //City or Town
-//    private String province;
-//    private String postalCode;  //Postal Code
     private String email;       //Email
     private String phone;    	//Phone number
     private String phone2;    	//Phone number 2
     private String subscribed;
+    private ArrayList<AddressBean> addresses = new ArrayList<AddressBean>();
     
-	public CustomerBean(String password, String firstName,
-			String lastName, String email, String phone, String phone2, String subscribed) {
-		//this.id = id;
-		this.password = password;
+    private JSONArray addressesJSON; 
+
+	public CustomerBean(){
+    	
+    }
+    
+	public CustomerBean(String firstName, String lastName, String email,
+			String phone, String phone2, String subscribed) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-//		this.address1 = address1;
-//		this.address2 = address2;
-//		this.city = city;
-//		this.province = province;
-//		this.postalCode = postalCode;
 		this.email = email;
 		this.phone = phone;
 		this.phone2 = phone2;
 		this.subscribed = subscribed;
 	}
+	
+    public String getId() {
+		return id;
+	}
 
-//	public String getId() {
-//		return id;
-//	}
-//
-//	public void setId(String id) {
-//		this.id = id;
-//	}
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getPassword() {
 		return password;
@@ -64,46 +63,6 @@ public class CustomerBean
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
-//	public String getAddress1() {
-//		return address1;
-//	}
-//
-//	public void setAddress1(String address1) {
-//		this.address1 = address1;
-//	}
-//
-//	public String getAddress2() {
-//		return address2;
-//	}
-//
-//	public void setAddress2(String address2) {
-//		this.address2 = address2;
-//	}
-//
-//	public String getCity() {
-//		return city;
-//	}
-//
-//	public void setCity(String city) {
-//		this.city = city;
-//	}
-//
-//	public String getProvince() {
-//		return province;
-//	}
-//
-//	public void setProvince(String province) {
-//		this.province = province;
-//	}
-//
-//	public String getPostalCode() {
-//		return postalCode;
-//	}
-//
-//	public void setPostalCode(String postalCode) {
-//		this.postalCode = postalCode;
-//	}
 
 	public String getEmail() {
 		return email;
@@ -135,6 +94,19 @@ public class CustomerBean
 
 	public void setSubscribed(String subscribed) {
 		this.subscribed = subscribed;
+	}
+
+	public ArrayList<AddressBean> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(ArrayList<AddressBean> addresses) {
+		this.addresses = addresses;
+	}
+	
+	public String getAddressesJSON(String id){
+		addressesJSON = new JSONArray(addresses);
+		return addressesJSON.toString();
 	}
 
 	@Override
