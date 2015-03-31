@@ -42,7 +42,12 @@
 		
 		initialCheckoutAddressForm();
 		$('#selectaddress').change(function(event){
-			changeCheckoutAddressForm(event.target.value)
+			var value = event.target.value;
+			if(value == "newaddress"){
+				clearCheckoutAddressForm();
+			} else {
+				changeCheckoutAddressForm(event.target.value);
+			}
 		});
 		
 
@@ -98,7 +103,7 @@
 									<div class="form-group">
 										<label for="selectaddress">Select the desired delivery address</label>
 										<select class="form-control" name="selectaddress" id="selectaddress">
-											<option value="">New address</option>
+											<option value="newaddress">New address</option>
 										</select>
 									</div>
 								</div>

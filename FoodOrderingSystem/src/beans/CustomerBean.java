@@ -14,7 +14,7 @@ public class CustomerBean
     private String phone;    	//Phone number
     private String phone2;    	//Phone number 2
     private String subscribed;
-    private ArrayList<AddressBean> addresses = new ArrayList<AddressBean>();
+    private ArrayList<AddressBean> addresses;
     
     private JSONArray addressesJSON; 
 

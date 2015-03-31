@@ -198,10 +198,10 @@ public class OrderDAO {
             			rs.getString("name"),
             			rs.getString("stage")
             			);
-            	System.out.println(rs.getString("id"));
-            	System.out.println(rs.getString("quantity"));
-            	System.out.println(rs.getString("name"));
-            	System.out.println("----------------------------------------------------");
+//            	System.out.println(rs.getString("id"));
+//            	System.out.println(rs.getString("quantity"));
+//            	System.out.println(rs.getString("name"));
+//            	System.out.println("----------------------------------------------------");
             	KitchenBean.insertOrder(order);
             }
 

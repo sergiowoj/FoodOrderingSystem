@@ -18,26 +18,22 @@ public class CheckoutServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		
-//		PrintWriter out = response.getWriter();
-		
-//				request.getParameter("address1"),
-		
 		
 		ShoppingCartBean cart = (ShoppingCartBean) request.getSession().getAttribute("cart");
 		cart.checkout();
 		
-		if(request.getParameter("saveaddress") != null){
+		if(request.getParameter("selectaddress").equals("newaddress")){
 			CustomerDAO.addAddress(
-					request.getParameter("alias"),
-					request.getParameter("address1"),
-					request.getParameter("address2"), 
-					request.getParameter("city"), 
-					request.getParameter("province"), 
-					request.getParameter("postalcode"), 
-					request.getParameter("phone"), 
-					request.getParameter("buzzer"), 
-					request.getSession().getAttribute("id").toString()
-					);
+				request.getParameter("alias"),
+				request.getParameter("address1"),
+				request.getParameter("address2"), 
+				request.getParameter("city"), 
+				request.getParameter("province"), 
+				request.getParameter("postalcode"), 
+				request.getParameter("phone"), 
+				request.getParameter("buzzer"), 
+				request.getSession().getAttribute("id").toString()
+				);
 			
 		}
 

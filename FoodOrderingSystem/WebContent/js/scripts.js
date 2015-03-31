@@ -68,14 +68,15 @@ String.prototype.capitalizeFirstLetter = function() {
 }
 
 function updateCheckoutAddressForm(response){
-	$('#alias').attr('value', response[0]['alias']);
-	$('#address1').attr('value', response[0]['address1']);
-	$('#address2').attr('value', response[0]['address2']);
-	$('#city').attr('value', response[0]['city']);
-	$('#province').attr('value', response[0]['province']);
-	$('#postalcode').attr('value', response[0]['postalCode']);
-	$('#phone').attr('value', response[0]['phone']);
-	$('#buzzer').attr('value', response[0]['buzzerNumber']);
+	$(".deliveryaddress input").attr('disabled', 'true');
+	$('#alias').attr('value', response['alias']);
+	$('#address1').attr('value', response['address1']);
+	$('#address2').attr('value', response['address2']);
+	$('#city').attr('value', response['city']);
+	$('#province').attr('value', response['province']);
+	$('#postalcode').attr('value', response['postalCode']);
+	$('#phone').attr('value', response['phone']);
+	$('#buzzer').attr('value', response['buzzerNumber']);
 }
 
 function initialCheckoutAddressForm(){
@@ -90,7 +91,7 @@ function initialCheckoutAddressForm(){
         		});
         		$('#selectaddress').html(options);
         		$('#selectaddress').append("<option value='newaddress'>New Address</option>");
-        		updateCheckoutAddressForm(response);
+        		updateCheckoutAddressForm(response[0]);
         	}
         }
     });
@@ -104,7 +105,6 @@ function changeCheckoutAddressForm(addressid){
         	var options = '';
         	if(response.length != 0){
         		$.each(response, function(){
-        			console.log(this["id"]);
         			if(this["id"] == addressid){
         				updateCheckoutAddressForm(this)
         			}
@@ -112,6 +112,18 @@ function changeCheckoutAddressForm(addressid){
         	}
         }
     });
+}
+
+function clearCheckoutAddressForm(){
+	$(".deliveryaddress input").removeAttr('disabled');
+	$('#alias').attr('value', '');
+	$('#address1').attr('value', '');
+	$('#address2').attr('value', '');
+	$('#city').attr('value', '');
+	$('#province').attr('value', '');
+	$('#postalcode').attr('value', '');
+	$('#phone').attr('value', '');
+	$('#buzzer').attr('value', '');
 }
 
 

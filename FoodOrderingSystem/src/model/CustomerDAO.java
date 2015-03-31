@@ -188,6 +188,7 @@ public class CustomerDAO {
 	            			);
 
 	                addresses.add(address);
+	                address.toString();
 	            }
 
 		} catch (Exception e) {  
