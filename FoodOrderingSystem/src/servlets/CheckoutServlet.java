@@ -19,11 +19,10 @@ public class CheckoutServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		
 		
-		ShoppingCartBean cart = (ShoppingCartBean) request.getSession().getAttribute("cart");
-		cart.checkout();
 		
+		String id = "";
 		if(request.getParameter("selectaddress").equals("newaddress")){
-			CustomerDAO.addAddress(
+			id = CustomerDAO.addAddress(
 				request.getParameter("alias"),
 				request.getParameter("address1"),
 				request.getParameter("address2"), 
@@ -35,7 +34,15 @@ public class CheckoutServlet extends HttpServlet {
 				request.getSession().getAttribute("id").toString()
 				);
 			
+		} else {
+			id = request.getParameter("selectaddress");
 		}
+		
+		
+		ShoppingCartBean cart = (ShoppingCartBean) request.getSession().getAttribute("cart");
+		
+		cart.setDeliveryAddressId(id);
+		cart.checkout();
 
 
 	}

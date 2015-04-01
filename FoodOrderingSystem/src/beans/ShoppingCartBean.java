@@ -19,6 +19,7 @@ public class ShoppingCartBean {
 	private String taxes;
 	private String discount;
 	private String deliveryCharge;
+	private String deliveryAddressId;
 
 	JSONArray jsonArray;
 	
@@ -80,7 +81,7 @@ public class ShoppingCartBean {
 		orderId = Integer.parseInt(lastOrderId) + 1;
 		
 		// create order
-		if(OrderDAO.createOrder(orderId, getOrderTotal(), getSubTotal(), getTaxes(), getDiscount(), getUserId()) > 0){
+		if(OrderDAO.createOrder(orderId, getOrderTotal(), getSubTotal(), getTaxes(), getDiscount(), getDeliveryAddressId(), getUserId()) > 0){
 			// insert items in db
 			if(OrderDAO.insertItems(orderId, items) > 0){
 				System.out.println("Order created and items linked to this order.");
@@ -190,5 +191,13 @@ public class ShoppingCartBean {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getDeliveryAddressId() {
+		return deliveryAddressId;
+	}
+
+	public void setDeliveryAddressId(String deliveryAddressId) {
+		this.deliveryAddressId = deliveryAddressId;
 	}
 }

@@ -133,14 +133,14 @@ public class OrderDAO {
         return status;
 	}
 	
-	public static int createOrder(int orderId, String orderTotal, String subTotal, String taxes, String discount, String customerId){
+	public static int createOrder(int orderId, String orderTotal, String subTotal, String taxes, String discount, String deliveryAddressId, String customerId){
 		int status = 0;
 		String query = ""
 				+ "INSERT INTO `order` ( "
 				+ "id , date_in , date_out , total_amount , subtotal_amount , taxes ,"
-				+ "discount , customer_id , cook_id , delivery_id , stage_id "
+				+ "discount, delivery_address_id , customer_id , cook_id , delivery_id , stage_id "
 				+ ") VALUES "
-				+ "( "+orderId+", NOW(), NULL, "+orderTotal+", "+subTotal+", "+taxes+", "+discount+", "+customerId+", 0, 0, 1 )";
+				+ "( "+orderId+", NOW(), NULL, "+orderTotal+", "+subTotal+", "+taxes+", "+discount+", "+deliveryAddressId+", "+customerId+", 0, 0, 1 )";
 		
 		try {  
             //Class.forName(driver).newInstance();  

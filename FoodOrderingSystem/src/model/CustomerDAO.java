@@ -109,9 +109,10 @@ public class CustomerDAO {
 		return status;
 	}
 
-	public static int addAddress(String alias, String address1, String address2, String city, 
+	public static String addAddress(String alias, String address1, String address2, String city, 
 			String province, String postalCode, String phone, String buzzerNumber, String customerId){
 		int status = 0;	
+		String id = "";
 		try {  
 			//Class.forName(driver).newInstance();  
 			conn = new DataManager().getConnection();
@@ -133,9 +134,13 @@ public class CustomerDAO {
 			pst.setString(8, buzzerNumber);
 			pst.setString(9, customerId);
 
-			System.out.println(pst);
+			status = pst.executeUpdate(); 
 
-			status = pst.executeUpdate();  
+			ResultSet result = 
+					conn.prepareStatement("SELECT id FROM address WHERE customer_id = "+customerId+" AND alias = '"+alias+"'")
+					.executeQuery();
+			result.next();
+			id = result.getString("id");
 
 		} catch (Exception e) {  
 			System.out.println(e);  
@@ -155,8 +160,7 @@ public class CustomerDAO {
 				}  
 			}    
 		}  
-		return status;
-
+		return id;
 	}
 	
 	public static ArrayList<AddressBean> getCustomerAddresses(String id){
