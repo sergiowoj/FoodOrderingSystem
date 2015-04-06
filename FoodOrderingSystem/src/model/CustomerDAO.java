@@ -168,14 +168,13 @@ public class CustomerDAO {
 		ArrayList<AddressBean> addresses = new ArrayList<>();
 		try {  
 			conn = new DataManager().getConnection();
-
+			System.out.println("GET ADDRESS ID: "+id);
 			pst = conn.prepareStatement(""
 					+ "SELECT id, alias, address1, address2, city, province, postal_code, "
 					+ "phone, buzzer_number FROM address "
 					+ "WHERE customer_id = "+id); 
 			
 			rs = pst.executeQuery();
-			rs.next();
 			
 			 while (rs.next()) {
 	            	AddressBean address = new AddressBean(
@@ -190,7 +189,7 @@ public class CustomerDAO {
 	            			rs.getString("buzzer_number"),
 	            			id
 	            			);
-
+	            	
 	                addresses.add(address);
 	                address.toString();
 	            }
@@ -405,14 +404,10 @@ public class CustomerDAO {
 
 		try {  
 			conn = new DataManager().getConnection();
-			//			pst = conn.prepareStatement(""
-			//					+ "SELECT address1 , address2, city, province, postal_code, phone"
-			//					+ "FROM address WHERE customer_id = "+id);
 			pst = conn.prepareStatement("SELECT * FROM address WHERE customer_id = "+id);
 
 			rs = pst.executeQuery();
-			System.out.println(pst);
-			System.out.println(rs);
+			
 			while (rs.next()) {
 				address[0] = rs.getString("address1");
 				address[1] = rs.getString("address2"); 
@@ -451,6 +446,60 @@ public class CustomerDAO {
 			System.out.println(address[i]);
 		}
 		return address;
+	}
+	
+	public static AddressBean getSpecificAddress(String id){
+		ResultSet rs = null;
+		AddressBean address = new AddressBean();
+		
+		try {  
+			conn = new DataManager().getConnection();
+			pst = conn.prepareStatement("SELECT id, alias, "
+					+ "address1, address2, city, province, "
+					+ "postal_code, phone, buzzer_number, customer_id "
+					+ "FROM address WHERE id = "+id);
+
+			rs = pst.executeQuery();
+
+			while (rs.next()) {
+				address.setId(rs.getString("id"));
+				address.setAddress1(rs.getString("address1"));
+				address.setAddress1(rs.getString("address2"));
+				address.setCity(rs.getString("city"));
+				address.setProvince(rs.getString("province"));
+				address.setPostalCode(rs.getString("postal_code"));
+				address.setPhone(rs.getString("phone"));
+				address.setBuzzerNumber(rs.getString("buzzer_number"));
+				address.setCustomerId(rs.getString("customer_id"));
+			}
+
+		} catch (Exception e) {  
+			System.out.println(e);  
+		} finally {  
+			if (conn != null) {  
+				try {  
+					conn.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+			if (pst != null) {  
+				try {  
+					pst.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+			if (rs != null) {  
+				try {  
+					rs.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+		}  
+
+		return address;		
 	}
 
 }

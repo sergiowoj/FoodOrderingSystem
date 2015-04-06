@@ -20,6 +20,7 @@ public class ShoppingCartBean {
 	private String discount;
 	private String deliveryCharge;
 	private String deliveryAddressId;
+	private String paymentMethod;
 
 	JSONArray jsonArray;
 	
@@ -71,24 +72,15 @@ public class ShoppingCartBean {
 		//}
 	}
 	
-	public void checkout(){
-		int orderId = 0;
-		// get the id of the last created order
-		String lastOrderId = OrderDAO.getLastOrderId();
-		if(lastOrderId == ""){
-			lastOrderId = "1";
-		}
-		orderId = Integer.parseInt(lastOrderId) + 1;
-		
-		// create order
-		if(OrderDAO.createOrder(orderId, getOrderTotal(), getSubTotal(), getTaxes(), getDiscount(), getDeliveryAddressId(), getUserId()) > 0){
-			// insert items in db
+	public String checkout(){
+		String orderId = OrderDAO.createOrder(getOrderTotal(), getSubTotal(), getTaxes(), getDeliveryCharge(), getDiscount(), getPaymentMethod(), getDeliveryAddressId(), getUserId());
+		if(!orderId.equals("")){
 			if(OrderDAO.insertItems(orderId, items) > 0){
-				System.out.println("Order created and items linked to this order.");
+				OrderDAO.updateKitchen();
+				return orderId;
 			}
 		}
-		
-		OrderDAO.updateKitchen();
+		return "";
 	}
 	
 	public ArrayList<String> listName(){
@@ -127,6 +119,10 @@ public class ShoppingCartBean {
 	
 	public ArrayList<ProductBean> getCart(){
 		return items;
+	}
+	
+	public int getNumberOfItems(){
+		return items.size();
 	}
 
 	public String getSubTotal() {
@@ -199,5 +195,13 @@ public class ShoppingCartBean {
 
 	public void setDeliveryAddressId(String deliveryAddressId) {
 		this.deliveryAddressId = deliveryAddressId;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 }

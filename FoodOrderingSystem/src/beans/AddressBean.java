@@ -13,6 +13,8 @@ public class AddressBean {
 	private String buzzerNumber;
 	private String customerId;
 	
+	public AddressBean(){};
+	
 	public AddressBean(String id, String alias, String address1,
 			String address2, String city, String province, String postalCode,
 			String phone, String buzzerNumber, String customerId) {

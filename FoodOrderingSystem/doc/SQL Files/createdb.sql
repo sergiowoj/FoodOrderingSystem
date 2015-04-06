@@ -35,7 +35,7 @@ CREATE TABLE `address` (
   `customer_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,21 +122,23 @@ DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `order` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `date_in` date NOT NULL,
   `date_out` date DEFAULT NULL,
   `total_amount` decimal(5,2) NOT NULL,
   `subtotal_amount` decimal(5,2) NOT NULL,
+  `delivery_charge` decimal(5,2) NOT NULL,
   `taxes` decimal(5,2) NOT NULL,
   `discount` decimal(5,2) DEFAULT NULL,
-  `delivery_address_id` int(11) DEFAULT NULL,
+  `payment_method` varchar(45) NOT NULL,
+  `delivery_address_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `cook_id` int(11) DEFAULT NULL,
   `delivery_id` int(11) DEFAULT NULL,
   `stage_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `OrderID_UNIQUE` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,7 +155,7 @@ CREATE TABLE `order_item` (
   `quantity` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,7 +185,7 @@ CREATE TABLE `stage` (
   `name` char(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -195,4 +197,4 @@ CREATE TABLE `stage` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-31 10:10:14
+-- Dump completed on 2015-04-06  2:03:12

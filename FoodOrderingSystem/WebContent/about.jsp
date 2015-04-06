@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+
+<!-- Internationalization imports -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="languageResources.text" />
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,7 +20,8 @@
 <t:header></t:header>
 
 <div class="container">
-	<h1>About us</h1>
+	<h1><fmt:message key="about.title.about" /></h1>
+	<fmt:message key="about.text.information" />
 </div>
 
 <t:footer></t:footer>

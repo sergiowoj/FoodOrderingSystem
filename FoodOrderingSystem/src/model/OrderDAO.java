@@ -3,6 +3,8 @@ package model;
 import java.sql.*;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+
 import beans.KitchenBean;
 import beans.OrderBean;
 import beans.ProductBean;
@@ -12,94 +14,7 @@ public class OrderDAO {
 	private static Connection conn = null;  
 	private static PreparedStatement pst = null;
 	
-	public static int placeOrder(){
-	    int status = 0;
-		try {  
-            //Class.forName(driver).newInstance();  
-            conn = new DataManager().getConnection();
-  
-            pst = conn.prepareStatement(""
-            		+ "INSERT INTO customer ("
-            		+ "first_name, last_name, phone, "
-            		+ "phone2, email, password, subscribed)"
-            		+ "VALUES (? , ? , ? , ? , ? , ?, ?)");
-            						
-//            pst.setString(1, customer.getFirstName());  
-//            pst.setString(2, customer.getLastName());
-//            pst.setString(3, customer.getPhone());
-//            pst.setString(4, customer.getPhone2());
-//            pst.setString(5, customer.getEmail());
-//            pst.setString(6, customer.getPassword());
-//            pst.setString(7, customer.getSubscribed());
-            
-            System.out.println(pst);
-  
-            status = pst.executeUpdate();  
-  
-        } catch (Exception e) {  
-            System.out.println(e);  
-        } finally {  
-            if (conn != null) {  
-                try {  
-                    conn.close();  
-                } catch (SQLException e) {  
-                    e.printStackTrace();  
-                }  
-            }  
-            if (pst != null) {  
-                try {  
-                    pst.close();  
-                } catch (SQLException e) {  
-                    e.printStackTrace();  
-                }  
-            }    
-        }  
-        return status;
-	}
-	
-	public static String getLastOrderId(){
-		ResultSet rs = null;
-		boolean status = false;
-		String id = "";
-		try {  
-            //Class.forName(driver).newInstance();  
-			conn = new DataManager().getConnection();
-  
-            pst = conn.prepareStatement("SELECT id FROM `order` ORDER BY id DESC LIMIT 1");  
-           
-            rs = pst.executeQuery();
-            status = rs.next();
-            id = rs.getString("id");
-            
-		} catch (Exception e) {  
-            System.out.println(e);  
-        } finally {  
-            if (conn != null) {  
-                try {  
-                    conn.close();  
-                } catch (SQLException e) {  
-                    e.printStackTrace();  
-                }  
-            }  
-            if (pst != null) {  
-                try {  
-                    pst.close();  
-                } catch (SQLException e) {  
-                    e.printStackTrace();  
-                }  
-            }  
-            if (rs != null) {  
-                try {  
-                    rs.close();  
-                } catch (SQLException e) {  
-                    e.printStackTrace();  
-                }  
-            }  
-        }  
-        return id;
-	}
-	
-	public static int insertItems(int orderId, ArrayList<ProductBean> items){
+	public static int insertItems(String orderId, ArrayList<ProductBean> items){
 		int status = 0;
 		String query = "INSERT INTO order_item ( order_id, item_id, quantity ) VALUES ";		
 		for (ProductBean item : items) { query += "( "+orderId+", "+item.getId()+", "+item.getQuantity()+" ),"; }
@@ -133,21 +48,24 @@ public class OrderDAO {
         return status;
 	}
 	
-	public static int createOrder(int orderId, String orderTotal, String subTotal, String taxes, String discount, String deliveryAddressId, String customerId){
-		int status = 0;
-		String query = ""
-				+ "INSERT INTO `order` ( "
-				+ "id , date_in , date_out , total_amount , subtotal_amount , taxes ,"
-				+ "discount, delivery_address_id , customer_id , cook_id , delivery_id , stage_id "
-				+ ") VALUES "
-				+ "( "+orderId+", NOW(), NULL, "+orderTotal+", "+subTotal+", "+taxes+", "+discount+", "+deliveryAddressId+", "+customerId+", 0, 0, 1 )";
-		
+	public static String createOrder(String orderTotal, String subTotal, String taxes, String deliveryCharge, String discount, String payment_method, String deliveryAddressId, String customerId){
+		String orderId = "";
 		try {  
-            //Class.forName(driver).newInstance();  
+			String query = ""
+					+ "INSERT INTO `order` ( "
+					+ "date_in , date_out , total_amount , subtotal_amount , taxes , delivery_charge, "
+					+ "discount, payment_method, delivery_address_id , customer_id , cook_id , delivery_id , stage_id "
+					+ ") VALUES "
+					+ "( NOW(), NULL, "+orderTotal+", "+subTotal+", "+taxes+", "+deliveryCharge+", "+discount+", '"+payment_method+"', "+deliveryAddressId+", "+customerId+", 0, 0, 1 )";
+
             conn = new DataManager().getConnection();
             pst = conn.prepareStatement(query);
-            status = pst.executeUpdate();  
-  
+            int status = pst.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            if(status > 0){
+	            ResultSet rs = pst.getGeneratedKeys();
+	            rs.next();
+	            orderId = rs.getString(1);
+            }
         } catch (Exception e) {  
             System.out.println(e);  
         } finally {  
@@ -166,13 +84,12 @@ public class OrderDAO {
                 }  
             }    
         }
-		return status;
+		return orderId;
 	}
 	
 	public static void updateKitchen(){
 		ResultSet rs = null;
 		try {  
-            //Class.forName(driver).newInstance();  
 			conn = new DataManager().getConnection();
   
             pst = conn.prepareStatement(""
@@ -182,9 +99,8 @@ public class OrderDAO {
             		+ "INNER JOIN order_item ON `order`.id = order_item.order_id "
             		+ "INNER JOIN item ON item.id = order_item.item_id "
             		+ "INNER JOIN stage ON `order`.stage_id = stage.id "
-            		+ "WHERE `stage`.name = \"Open\" "
+            		+ "WHERE `stage`.name IN ('Open', 'Preparing') "
             		+ "ORDER BY `order`.id ASC");
-            		//+ "WHERE stage.name LIKE \"Open\"");  
            
             rs = pst.executeQuery();
             // status = rs.next();
@@ -198,11 +114,69 @@ public class OrderDAO {
             			rs.getString("name"),
             			rs.getString("stage")
             			);
-//            	System.out.println(rs.getString("id"));
-//            	System.out.println(rs.getString("quantity"));
-//            	System.out.println(rs.getString("name"));
-//            	System.out.println("----------------------------------------------------");
             	KitchenBean.insertOrder(order);
+            }
+            
+		} catch (Exception e) {  
+            System.out.println(e);  
+        } finally {  
+            if (conn != null) {  
+                try {  
+                    conn.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (pst != null) {  
+                try {  
+                    pst.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (rs != null) {  
+                try {  
+                    rs.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+        }  
+	}
+	
+	public static String[] getOrder(String orderId){
+		ResultSet rs = null;
+		String[] order = new String[14];
+		try {  
+			conn = new DataManager().getConnection();
+  
+            pst = conn.prepareStatement(""
+            		+ "SELECT total_amount, subtotal_amount, "
+            		+ "taxes, delivery_charge, discount, payment_method, alias, "
+            		+ "address1, address2, city, province, "
+            		+ "postal_code, buzzer_number, stage.`name` as stage "
+            		+ "FROM `order` INNER JOIN address ON address.id = `order`.delivery_address_id "
+            		+ "INNER JOIN stage ON stage.id = `order`.stage_id "
+            		+ "WHERE `order`.id = "+orderId+";");
+           
+            rs = pst.executeQuery();
+
+            while(rs.next()){
+            	order[0] = rs.getString("total_amount");
+            	order[1] = rs.getString("subtotal_amount");
+            	order[2] = rs.getString("taxes");
+            	order[3] = rs.getString("delivery_charge");
+            	order[4] = rs.getString("discount");
+            	order[5] = rs.getString("payment_method");
+            	order[6] = rs.getString("alias");
+            	order[7] = rs.getString("address1");
+            	order[8] = rs.getString("address2");
+            	order[9] = rs.getString("city");
+            	order[10] = rs.getString("province");
+            	order[11] = rs.getString("postal_code");
+            	order[12] = rs.getString("buzzer_number");
+            	order[13] = rs.getString("stage");
+            	
             }
 
             
@@ -231,6 +205,93 @@ public class OrderDAO {
                 }  
             }  
         }  
+		return order;
+	}
+	
+	public static ArrayList<ProductBean> getItems(String orderId){
+		ArrayList<ProductBean> items = new ArrayList<>();
+		ResultSet rs = null;
+
+		try {  
+			conn = new DataManager().getConnection();
+  
+            pst = conn.prepareStatement(""
+            		+ "SELECT quantity, item.`name`, price, description, size.`name` as size "
+            		+ "FROM order_item INNER JOIN item ON item.id = order_item.item_id "
+            		+ "INNER JOIN size ON size.id = item.size_id "
+            		+ "WHERE order_item.order_id = "+orderId+";");
+           
+            rs = pst.executeQuery();
+
+            while(rs.next()){
+            	ProductBean product = new ProductBean();
+            	product.setQuantity(rs.getInt("quantity"));
+            	product.setName(rs.getString("name"));
+            	product.setPrice(rs.getDouble("price"));
+            	product.setDescription(rs.getString("description"));
+            	product.setSize(rs.getString("size"));
+            	items.add(product);            
+            }
+            
+		} catch (Exception e) {  
+            System.out.println(e);  
+        } finally {  
+            if (conn != null) {  
+                try {  
+                    conn.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (pst != null) {  
+                try {  
+                    pst.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (rs != null) {  
+                try {  
+                    rs.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+        }  
+		
+		return items;
+	}
+	
+	public static int changeOrderStage(String orderId, String stage){
+		int status = 0;
+		int stageInt = Integer.parseInt(stage);
+	
+        try {  
+        	String query = "UPDATE `order` SET `stage_id`='"+stageInt+"' WHERE `id`='"+orderId+"';";		
+            conn = new DataManager().getConnection();
+            pst = conn.prepareStatement(query);
+            status = pst.executeUpdate();  
+  
+        } catch (Exception e) {  
+            System.out.println(e);  
+        } finally {  
+            if (conn != null) {  
+                try {  
+                    conn.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (pst != null) {  
+                try {  
+                    pst.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }    
+        }  
+        
+        return status;
 	}
 
 }

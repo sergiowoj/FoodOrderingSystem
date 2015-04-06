@@ -18,6 +18,8 @@ public class ProductBean implements Comparable<ProductBean>
 	
 	private double price;
 	private double totalPrice;
+	
+	public ProductBean(){}
 
 	public ProductBean(String id, String category, String name, String ingredients,
 			double price, String description, String size) {
@@ -129,11 +131,18 @@ public class ProductBean implements Comparable<ProductBean>
 	}
 
 	public String getPriceOut() {
-		return priceOut;
+		return outputFormat.format(this.price);
 	}
 
 	public void setPriceOut(String priceOut) {
 		this.priceOut = priceOut;
+	}
+	
+	public String getCalculatedTotalPrice(){
+		double quantity = this.quantity;
+		double total = quantity*this.price;
+		
+		return outputFormat.format(total);
 	}
 
 	@Override

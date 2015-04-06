@@ -1,11 +1,11 @@
 <%@tag description="Header" pageEncoding="UTF-8"%>
 
-<!-- Imports da internacionalizacao -->
+<!-- Internationalization imports -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
-<fmt:setBundle basename="languagesResources.text" />
+<fmt:setBundle basename="languageResources.text" />
 
 <nav class="navbar navbar-inverse">
 	<div class="container">
@@ -17,7 +17,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Food Ordering System</a>
+			<a class="navbar-brand" href="index.jsp">Food Ordering System</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">

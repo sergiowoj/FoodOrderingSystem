@@ -18,8 +18,6 @@ public class CheckoutServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		
-		
-		
 		String id = "";
 		if(request.getParameter("selectaddress").equals("newaddress")){
 			id = CustomerDAO.addAddress(
@@ -39,10 +37,16 @@ public class CheckoutServlet extends HttpServlet {
 		}
 		
 		
+		
 		ShoppingCartBean cart = (ShoppingCartBean) request.getSession().getAttribute("cart");
 		
+		
+		cart.setPaymentMethod(request.getParameter("payment_method"));
 		cart.setDeliveryAddressId(id);
-		cart.checkout();
+		String orderId = cart.checkout();
+		if(!orderId.equals("")){
+			response.sendRedirect("order_summary.jsp?oid="+orderId);
+		}
 
 
 	}

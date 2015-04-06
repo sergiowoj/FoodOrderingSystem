@@ -12,8 +12,7 @@
 <%
 	cart.calculateOrder();
 	cart.setUserId(session.getAttribute("id").toString());
-	
-	
+
 	request.getSession().setAttribute("cart", cart);
 %>
 
@@ -59,7 +58,15 @@
 	<t:header></t:header>
 
 	<script src="js/bootstrap-table/bootstrap-table.min.js"></script>
-
+	<%if(cart.getNumberOfItems() == 0){ %>
+	<div class="container">
+		<div class="container-fluid">
+			<div class="row">
+				<h1>You have nothing in your shopping cart. Please make an order first! :)</h1>
+			</div>
+		</div>
+	</div>
+	<%} else { %>
 	<div class="container">
 		<div class="checkout">
 			<h1>Checkout</h1>
@@ -183,20 +190,20 @@
 					<h3>Payment method</h3>
 					Select your payment method
 					<div class="radio">
-						<label><input type="radio" name="paymentmethod"
-							id="payAtDoor">Pay at door</label> <label><input
-							type="radio" name="paymentmethod" id="payOnline">Pay
-							online</label>
+						<label><input type="radio" name="payment" id="payAtDoor">Pay at door</label> 
+						<label><input type="radio" name="payment" id="payOnline">Pay online</label>
 					</div>
+					
 					<div class="payatdoor" id="payatdoor">
 						<div class="method">
-							<select name="doormethod" class="form-control">
+							<select name="payment_method" class="form-control">
 								<option value="cash">Cash</option>
 								<option value="credit">Credit</option>
 								<option value="debit">Debit</option>
 							</select>
 						</div>
 					</div>
+					
 					<div class="payonline" id="payonline">
 						<div class="creditinfo">
 							<div class="row">
@@ -274,7 +281,7 @@
 			<div class="clearfix"></div>
 		</div>
 	</div>
-
+	<%} %>
 	<t:footer></t:footer>
 </body>
 </html>

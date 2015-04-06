@@ -19,6 +19,8 @@ body {
 	background-color: #f5f5f5;
 }
 
+.graybg-radius { background-color: #EEE; border-radius: 5px; padding: 10px; }
+
 .menu {}
 .menu .row {}
 .menu .row .thumbnail {}
@@ -48,6 +50,12 @@ body {
 .myitems .items ul li:hover { background-color: #FFF; }
 
 
+/* INDEX.JSP */
+
+.welcomebox { background-color: #EEE; border-radius: 5px; padding: 10px; padding: 40px 0 40px 0;}
+.welcomebox .text {text-align: center; font-size: 20px;}
+.welcomebox .text h1 {margin:0;}
+
 /* CHECKOUT.JSP */
 
 .checkout { padding-bottom: 20px; }
@@ -60,6 +68,14 @@ body {
 .singleorder .number { height: 50px;  float: left; font-size: 20px; padding: 10px; }
 .singleorder .item_name .quantity {color: Blue;}
 .singleorder .items { padding-left: 10px; border-left: 1px solid #DDD; float: left; font-size: 30px;}
+
+/* ORDER_PROGRESS.JSP */
+
+.stage-box {margin: 10px 0px;}
+.stage { margin: 0 18px; text-align: center; font-weight: bold; height: 100px; line-height: 80px; background-color: #EEE; border-radius: 15px; padding: 10px; }
+.stage-prev { color: #666; }
+.stage-active { background-color: yellow; }
+.stage-next { color: #DDD; }
 
 
 
