@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import beans.AddressBean;
 import beans.CustomerBean;
-import beans.ProductBean;
 import model.DataManager;
 
 public class CustomerDAO {
@@ -17,23 +16,26 @@ public class CustomerDAO {
 	private static Connection conn = null;  
 	private static PreparedStatement pst = null;
 	private static CustomerBean customer ;
-	private static String address[] = new String[6];
-
 	public static boolean login(String email, String password){
 		ResultSet rs = null;
 		boolean status = false;
+		PasswordEncryptionService pw = new PasswordEncryptionService();
 		try {  
 			//Class.forName(driver).newInstance();  
 			conn = new DataManager().getConnection();
 
-			pst = conn.prepareStatement("SELECT id, first_name, last_name, email FROM customer WHERE email = ? AND password = ?");  
+			pst = conn.prepareStatement("SELECT password, salt FROM customer WHERE email = ?");  
 			pst.setString(1, email);
-			pst.setString(2, password);
-
+			
 			rs = pst.executeQuery();
-			status  = rs.next();
-
-
+			//status  = rs.next();
+			while(rs.next()){
+				if(pw.authenticate(password, rs.getBytes("password"), rs.getBytes("salt"))){
+					status = true;
+				} else {
+					status = false;
+				}
+			}
 
 		} catch (Exception e) {  
 			System.out.println(e);  
@@ -73,16 +75,17 @@ public class CustomerDAO {
 			pst = conn.prepareStatement(""
 					+ "INSERT INTO customer ("
 					+ "first_name, last_name, phone, "
-					+ "phone2, email, password, subscribed)"
-					+ "VALUES (? , ? , ? , ? , ? , ?, ?)");
+					+ "phone2, email, password, salt, subscribed)"
+					+ "VALUES (? , ? , ? , ? , ? , ?, ?, ?)");
 
 			pst.setString(1, customer.getFirstName());  
 			pst.setString(2, customer.getLastName());
 			pst.setString(3, customer.getPhone());
 			pst.setString(4, customer.getPhone2());
 			pst.setString(5, customer.getEmail());
-			pst.setString(6, customer.getPassword());
-			pst.setString(7, customer.getSubscribed());
+			pst.setBytes(6, customer.getPassword());
+			pst.setBytes(7, customer.getSalt());
+			pst.setString(8, customer.getSubscribed());
 
 			System.out.println(pst);
 
@@ -111,7 +114,7 @@ public class CustomerDAO {
 
 	public static String addAddress(String alias, String address1, String address2, String city, 
 			String province, String postalCode, String phone, String buzzerNumber, String customerId){
-		int status = 0;	
+
 		String id = "";
 		try {  
 			//Class.forName(driver).newInstance();  
@@ -134,7 +137,7 @@ public class CustomerDAO {
 			pst.setString(8, buzzerNumber);
 			pst.setString(9, customerId);
 
-			status = pst.executeUpdate(); 
+			pst.executeUpdate(); 
 
 			ResultSet result = 
 					conn.prepareStatement("SELECT id FROM address WHERE customer_id = "+customerId+" AND alias = '"+alias+"'")
@@ -168,7 +171,6 @@ public class CustomerDAO {
 		ArrayList<AddressBean> addresses = new ArrayList<>();
 		try {  
 			conn = new DataManager().getConnection();
-			System.out.println("GET ADDRESS ID: "+id);
 			pst = conn.prepareStatement(""
 					+ "SELECT id, alias, address1, address2, city, province, postal_code, "
 					+ "phone, buzzer_number FROM address "
@@ -234,12 +236,14 @@ public class CustomerDAO {
 			conn = new DataManager().getConnection();
 			pst = conn.prepareStatement(""
 					+ "SELECT id, first_name , last_name , phone, phone2, "
-					+ "email, password, subscribed "
+					+ "email, password, salt, subscribed "
 					+ "FROM customer WHERE email = '"+email+"'");
 			rs = pst.executeQuery();
 			
 			while (rs.next()) {
 				customer = new CustomerBean(
+						rs.getBytes("password"),
+						rs.getBytes("salt"),
 						rs.getString("first_name"), 
 						rs.getString("last_name"),
 						rs.getString("email"), 
@@ -358,22 +362,34 @@ public class CustomerDAO {
 
 
 	public static boolean setCustomerAddress(String address1, String address2, String city,
-			String province, String postal_code, String phone, String id){
+			String province, String postal_code, String buzzer, String phone, String customerId, String addressId){
 		int rs = 0;
 
 		try {  
 			conn = new DataManager().getConnection();
-			pst = conn.prepareStatement("UPDATE address SET address1 = ? " 
-					+ ", address2 = ? , city = ? , province = ? , postal_code = ? , "
-					+ " phone = ? WHERE customer_id = ? ");
+			pst = conn.prepareStatement(""
+					+ "UPDATE address SET "
+					+ "address1 = ? " 
+					+ ", address2 = ? "
+					+ ", city = ? "
+					+ ", province = ? "
+					+ ", postal_code = ? "
+					+ ", buzzer_number = ?"
+					+ ", phone = ? "
+					+ "WHERE id = ? "
+					+ "AND customer_id = ? ");
 
 			pst.setString(1, address1);
 			pst.setString(2, address2);
 			pst.setString(3, city);
 			pst.setString(4, province);
 			pst.setString(5, postal_code);
-			pst.setString(6, phone);
-			pst.setInt(7, Integer.parseInt(id));
+			pst.setString(6, buzzer);
+			pst.setString(7, phone);
+			pst.setString(8, addressId);
+			pst.setString(9, customerId);
+			
+			System.out.println(pst);
 			rs = pst.executeUpdate();
 
 		} catch (Exception e) {  
@@ -401,7 +417,7 @@ public class CustomerDAO {
 
 	public static String[] getCustomerAddress(String id){
 		ResultSet rs = null;
-
+		String address[] = new String[6];
 		try {  
 			conn = new DataManager().getConnection();
 			pst = conn.prepareStatement("SELECT * FROM address WHERE customer_id = "+id);
@@ -500,6 +516,37 @@ public class CustomerDAO {
 		}  
 
 		return address;		
+	}
+	
+	public static int deleteAddress(String addressId){
+		int status = 0;
+		try {  
+			conn = new DataManager().getConnection();
+			pst = conn.prepareStatement("DELETE FROM address WHERE id = ? ");
+
+			pst.setString(1, addressId);
+
+			status = pst.executeUpdate();
+
+		} catch (Exception e) {  
+			System.out.println(e);  
+		} finally {  
+			if (conn != null) {  
+				try {  
+					conn.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+			if (pst != null) {  
+				try {  
+					pst.close();  
+				} catch (SQLException e) {  
+					e.printStackTrace();  
+				}  
+			}  
+		}
+		return status;
 	}
 
 }

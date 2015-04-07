@@ -100,7 +100,7 @@ $(document).ready(function() {
 			%>
 
 			<div class="item">
-				<div class="item_name"><span class="quantity"><%=order.getQuantity() %>x</span> <%=order.getName() %></div>
+				<div class="item_name"><span class="quantity"><%=order.getQuantity() %>x  <%=order.getSize()%> </span> <%=order.getName()%> </div>
 			</div>
 
 			<%

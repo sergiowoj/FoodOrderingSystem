@@ -30,10 +30,13 @@
 
 			<ul class="nav navbar-nav navbar-right">
 					<li>
-						<c:if test="${!language.equals(\"pt\") }">
+						<c:if test="${language.equals(\"en\") }">
 							<a href="?language=pt">Português</a>
 						</c:if>
 						<c:if test="${language.equals(\"pt\")}">
+							<a href="?language=en">English</a>
+						</c:if>
+						<c:if test="${!language.equals(\"pt\") && !language.equals(\"en\")}">
 							<a href="?language=en">English</a>
 						</c:if>
 		        	</li>

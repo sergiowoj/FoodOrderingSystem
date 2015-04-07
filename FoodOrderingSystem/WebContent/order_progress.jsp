@@ -2,6 +2,11 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
+<%
+	//Check if user is already logged in. If yes, redirect to Home page.
+	if(session.getAttribute("id") == null) response.sendRedirect("login.jsp");
+%>
+
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.text.DecimalFormat"%>
@@ -36,7 +41,7 @@
 <body>
 	<t:header></t:header>
 
-	<div class="container">
+	<div class="container container-style">
 		<div class="container-fluid">
 			<h2>Order Progress</h2>
 			<div class="row">

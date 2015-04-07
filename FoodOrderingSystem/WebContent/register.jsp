@@ -24,7 +24,11 @@
 <body>
 <t:header></t:header>
 
-<div class="container">
+<div class="container container-style">
+	<% if(request.getAttribute("errorMessage") != null) { %>
+	<div class="alert alert-danger" role="alert">${errorMessage}</div>
+	<% } %>
+		
 	<h1><fmt:message key="register.label.register" /></h1>
 	<hr>
 	<h3><fmt:message key="register.label.information" /></h3>
@@ -43,11 +47,11 @@
 	  </div>
 	  <div class="form-group">
 	    <label for="password"><fmt:message key="register.label.password" /></label>
-	    <input name="password" class="form-control" id="password" placeholder="<fmt:message key="register.textbox.password" />">
+	    <input type="password" name="password" class="form-control" id="password" placeholder="<fmt:message key="register.textbox.password" />">
 	  </div>
 	  <div class="form-group">
 	    <label for="password-conf"><fmt:message key="register.label.password2" /></label>
-	    <input name="password-conf" class="form-control" id="password-conf" placeholder="<fmt:message key="register.textbox.password2" />">
+	    <input type="password" name="password-conf" class="form-control" id="password-conf" placeholder="<fmt:message key="register.textbox.password2" />">
 	  </div>
 	  <div class="form-group">
 	    <label for="phone"><fmt:message key="register.label.phone" /></label>

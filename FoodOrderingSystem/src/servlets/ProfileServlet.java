@@ -21,12 +21,12 @@ public class ProfileServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 
 		String control = request.getParameter("control");
-		String id = request.getSession().getAttribute("id").toString();
-        System.out.println(control+"    "+id);
+		String customerId = request.getSession().getAttribute("id").toString();
+        System.out.println(control+"    "+customerId);
 		if(control.equals("pwd")){
 			String pwd1 = request.getParameter("password");
-			String pwd2 = request.getParameter("password-conf");
-			if(CustomerDAO.setCustomerPwd(pwd1, id)){
+
+			if(CustomerDAO.setCustomerPwd(pwd1, customerId)){
 				out.print("<p>Password changed successfully.</p>");    
 				RequestDispatcher rd=request.getRequestDispatcher("profile.jsp");    
 				rd.include(request,response); 
@@ -47,7 +47,7 @@ public class ProfileServlet extends HttpServlet {
 				subscribed = "yes";
 			else
 				subscribed = "no";
-			if(CustomerDAO.setCustomerProfile(fname, lname, email, phone, phone2, subscribed, id)){
+			if(CustomerDAO.setCustomerProfile(fname, lname, email, phone, phone2, subscribed, customerId)){
 				out.print("<p>Profile Update was successful.</p>");    
 				RequestDispatcher rd=request.getRequestDispatcher("profile.jsp");    
 				rd.include(request,response); 
@@ -58,25 +58,33 @@ public class ProfileServlet extends HttpServlet {
 			}
 		}
 		if(control.equals("address")){
-			String addr1 = request.getParameter("address1");
-			String addr2 = request.getParameter("address2");
-			String city = request.getParameter("city");
-			String prov = request.getParameter("province");
-			String cep = request.getParameter("postalcode");
-			String phone = request.getParameter("phone");
-			if(CustomerDAO.setCustomerAddress(addr1, addr2, city, prov, cep, phone, id)){
-				out.print("<p>Address changed successfully.</p>");    
-				RequestDispatcher rd=request.getRequestDispatcher("profile.jsp");    
-				rd.include(request,response); 
-			} else {
-				out.print("<p>Unable to change address.</p>");    
-				RequestDispatcher rd=request.getRequestDispatcher("profile.jsp");    
-				rd.include(request,response);
+			if(request.getParameter("submit").equals("Update")){
+				String addressId = request.getParameter("selectaddress");
+				String address1 = request.getParameter("address1");
+				String address2 = request.getParameter("address2");
+				String city = request.getParameter("city");
+				String province = request.getParameter("province");
+				String postal_code = request.getParameter("postalcode");
+				String phone = request.getParameter("phone");
+				String buzzer = request.getParameter("buzzer");
+				if(CustomerDAO.setCustomerAddress(address1, address2, city, province, postal_code, buzzer, phone, customerId, addressId)){
+					out.print("<p>Address changed successfully.</p>");    
+					RequestDispatcher rd=request.getRequestDispatcher("profile.jsp");    
+					rd.include(request,response); 
+				} else {
+					out.print("<p>Unable to change address.</p>");    
+					RequestDispatcher rd=request.getRequestDispatcher("profile.jsp");    
+					rd.include(request,response);
+				}
 			}
-		
-
+			else if(request.getParameter("submit").equals("Delete")){
+				String addressId = request.getParameter("selectaddress");
+				if(CustomerDAO.deleteAddress(addressId) > 0){
+					out.print("<p>Address deleted.</p>");    
+					RequestDispatcher rd=request.getRequestDispatcher("profile.jsp");    
+					rd.include(request,response);
+				}
+			}
+		}
 	}
-}
-
-
 }

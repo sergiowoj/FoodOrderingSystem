@@ -77,6 +77,7 @@ public class ShoppingCartBean {
 		if(!orderId.equals("")){
 			if(OrderDAO.insertItems(orderId, items) > 0){
 				OrderDAO.updateKitchen();
+				clearShoppingCart();
 				return orderId;
 			}
 		}
@@ -85,10 +86,10 @@ public class ShoppingCartBean {
 	
 	public ArrayList<String> listName(){
 		ArrayList<String> aux = new ArrayList<String>();
-	
-			for (ProductBean productBean : items) 
-				aux.add(productBean.getName());
-			return aux ;
+
+		for (ProductBean productBean : items) 
+			aux.add(productBean.getName());
+		return aux ;
 	}
 
 	public void calculateOrder(){
@@ -115,6 +116,20 @@ public class ShoppingCartBean {
 		this.taxes = outputFormat.format(taxes);
 		this.discount = outputFormat.format(discount);
 		this.orderTotal = outputFormat.format(orderTotal);
+	}
+	
+	private void clearShoppingCart(){
+		this.items.removeAll(items);
+		this.userId = "";
+		this.subTotal = "";
+		this.orderTotal = "";
+		this.pst = "";
+		this.hstgst = "";
+		this.taxes = "";
+		this.discount = "";
+		this.deliveryAddressId = "";
+		this.deliveryCharge = "";
+		this.paymentMethod = "";
 	}
 	
 	public ArrayList<ProductBean> getCart(){

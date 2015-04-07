@@ -1,15 +1,14 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.CustomerDAO;
+import beans.CustomerBean;
 import beans.ShoppingCartBean;
 
 public class CheckoutServlet extends HttpServlet {
@@ -31,16 +30,14 @@ public class CheckoutServlet extends HttpServlet {
 				request.getParameter("buzzer"), 
 				request.getSession().getAttribute("id").toString()
 				);
-			
+			CustomerBean customer = (CustomerBean) request.getSession().getAttribute("customer");
+			customer.setAddresses(CustomerDAO.getCustomerAddresses(request.getSession().getAttribute("id").toString()));
 		} else {
 			id = request.getParameter("selectaddress");
 		}
-		
-		
-		
+				
 		ShoppingCartBean cart = (ShoppingCartBean) request.getSession().getAttribute("cart");
-		
-		
+
 		cart.setPaymentMethod(request.getParameter("payment_method"));
 		cart.setDeliveryAddressId(id);
 		String orderId = cart.checkout();

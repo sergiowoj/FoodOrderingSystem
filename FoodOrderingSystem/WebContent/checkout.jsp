@@ -1,18 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
-
+<%
+	//Check if user is already logged in. If yes, redirect to Home page.
+	if(session.getAttribute("id") == null) response.sendRedirect("login.jsp");
+%>
 <jsp:useBean id="cart" scope="session" class="beans.ShoppingCartBean" />
+<jsp:useBean id="customer" scope="session" class="beans.CustomerBean" />
+
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.text.DecimalFormat"%>
 <%@ page import="beans.ProductBean"%>
+<%@ page import="beans.AddressBean" %>
+<%@ page import="model.CustomerDAO" %>
 
 
 <%
 	cart.calculateOrder();
 	cart.setUserId(session.getAttribute("id").toString());
-
+    customer.setAddresses(CustomerDAO.getCustomerAddresses(customer.getId()));
 	request.getSession().setAttribute("cart", cart);
 %>
 
@@ -39,17 +45,15 @@
 			$(".payonline").css('display', 'block');
 		});
 		
-		initialCheckoutAddressForm();
+		initialAddressForm('checkout');
 		$('#selectaddress').change(function(event){
 			var value = event.target.value;
 			if(value == "newaddress"){
-				clearCheckoutAddressForm();
+				clearAddressForm();
 			} else {
-				changeCheckoutAddressForm(event.target.value);
+				changeAddressForm(event.target.value);
 			}
 		});
-		
-
 	});
 </script>
 
@@ -59,7 +63,7 @@
 
 	<script src="js/bootstrap-table/bootstrap-table.min.js"></script>
 	<%if(cart.getNumberOfItems() == 0){ %>
-	<div class="container">
+	<div class="container container-style">
 		<div class="container-fluid">
 			<div class="row">
 				<h1>You have nothing in your shopping cart. Please make an order first! :)</h1>
@@ -67,7 +71,7 @@
 		</div>
 	</div>
 	<%} else { %>
-	<div class="container">
+	<div class="container container-style">
 		<div class="checkout">
 			<h1>Checkout</h1>
 			<table data-toggle="table" data-url="listcart.jsp">

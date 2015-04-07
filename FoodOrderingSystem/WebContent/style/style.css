@@ -3,8 +3,13 @@ html {
   min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+	/* Margin bottom by footer height */
+	margin-bottom: 60px;
+	background: url('http://www.mipork.org/ImageGallery/Recipes/HR/BBQ_Pulled_Pork_Pizza_HR.jpg') no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 .footer {
@@ -20,40 +25,54 @@ body {
 }
 
 .graybg-radius { background-color: #EEE; border-radius: 5px; padding: 10px; }
+.container-style { background-color:rgba(255, 255, 255, 0.9); padding: 10px 30px 30px 30px; border-radius: 5px; min-height: 300px; }
+.vert-menu-style {
+	background-image: -webkit-linear-gradient(top,#3c3c3c 0,#222 100%);
+	background-image: -o-linear-gradient(top,#3c3c3c 0,#222 100%);
+	background-image: -webkit-gradient(linear,left top,left bottom,from(#3c3c3c),to(#222));
+	background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+	color: #FFF;
+	border-radius: 5px;
+	border-color: #DDD;
+	padding: 10px;
+}
+.alert{  margin-left: -20px; margin-right: -20px; }
+ 
+/* MENU.JSP */
 
-.menu {}
 .menu .row {}
 .menu .row .thumbnail {}
 .menu .row .thumbnail .productname {font-weight: bold; font-size: 20px;}
-.menu .row .thumbnail .price { font-size: 20px; }
+.menu .row .thumbnail .price {  }
 .menu .row .thumbnail .price-add {padding-top: 10px;}
-.menu .row .thumbnail .price-add .price { float: right; padding: 3px 6px; }
+.menu .row .thumbnail .price-add .price { float: right; padding: 3px 6px; font-size: 20px;}
 .menu .row .thumbnail .price-add .add { float: right;}
 
 .cart{
+	color: #FFF;
 	border-radius: 5px;
 	border-color: #DDD;
-	background-color: #EEE;
 	padding: 10px;
 }
-
-.myitems {
-
+.cart .removeFromCart{
+	color: #000;
 }
 
 
+
+.myitems {}
 .myitems .items { padding: 10px 10px; }
 .myitems .items .price {text-align: right;}
 .myitems .totalprice {padding: 10px 10px;}
 .myitems .items ul { list-style: none; margin: 0; padding: 0;}
 .myitems .items ul li { padding: 3px 0; }
-.myitems .items ul li:hover { background-color: #FFF; }
+.myitems .items ul li:hover { background-color: #666; }
 
 
 /* INDEX.JSP */
 
-.welcomebox { background-color: #EEE; border-radius: 5px; padding: 10px; padding: 40px 0 40px 0;}
-.welcomebox .text {text-align: center; font-size: 20px;}
+.welcomebox {}
+.welcomebox .text {text-align: center; font-size: 20px; padding: 90px 0; }
 .welcomebox .text h1 {margin:0;}
 
 /* CHECKOUT.JSP */
@@ -62,6 +81,10 @@ body {
 .checkout .address { background-color: #EEE; border-radius: 5px; padding: 10px; }
 
 /* PROFILE MENU */
+
+.profile-menu {}
+.profile-menu ul>li>a {color: #9d9d9d;}
+.profile-menu ul>li>a:hover {color: #333;}
 
 /* KITCHEN.JSP */
 .singleorder { border-radius: 5px; background-color: #EEE; padding: 20px; margin: 10px 0 10px 0;}
@@ -76,6 +99,7 @@ body {
 .stage-prev { color: #666; }
 .stage-active { background-color: yellow; }
 .stage-next { color: #DDD; }
+
 
 
 

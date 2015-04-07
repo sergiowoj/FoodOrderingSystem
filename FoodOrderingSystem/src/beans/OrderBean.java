@@ -8,9 +8,10 @@ public class OrderBean {
 	private String quantity;
 	private String name;
 	private String stage;
+	private String size;
 	
 	public OrderBean(String id, String date_in, String item_id,
-			String quantity, String name, String stage) {
+			String quantity, String name, String stage, String size) {
 		super();
 		this.id = id;
 		this.date_in = date_in;
@@ -18,6 +19,7 @@ public class OrderBean {
 		this.quantity = quantity;
 		this.name = name;
 		this.stage = stage;
+		this.size = size;
 	}
 
 	public String getId() {
@@ -55,6 +57,14 @@ public class OrderBean {
 	}
 	public void setStage(String stage) {
 		this.stage = stage;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 
 	

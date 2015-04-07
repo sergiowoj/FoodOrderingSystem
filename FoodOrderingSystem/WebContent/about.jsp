@@ -20,8 +20,16 @@
 <t:header></t:header>
 
 <div class="container">
-	<h1><fmt:message key="about.title.about" /></h1>
-	<fmt:message key="about.text.information" />
+	<div class="container-fluid container-style">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text">
+					<h1><fmt:message key="about.title.about" /></h1>
+					<fmt:message key="about.text.information" />
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <t:footer></t:footer>

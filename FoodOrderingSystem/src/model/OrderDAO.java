@@ -3,8 +3,6 @@ package model;
 import java.sql.*;
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-
 import beans.KitchenBean;
 import beans.OrderBean;
 import beans.ProductBean;
@@ -16,13 +14,15 @@ public class OrderDAO {
 	
 	public static int insertItems(String orderId, ArrayList<ProductBean> items){
 		int status = 0;
-		String query = "INSERT INTO order_item ( order_id, item_id, quantity ) VALUES ";		
-		for (ProductBean item : items) { query += "( "+orderId+", "+item.getId()+", "+item.getQuantity()+" ),"; }
-		query = query.substring(0, query.length()-1);
 		
         try {  
-            //Class.forName(driver).newInstance();  
-            conn = new DataManager().getConnection();
+        	
+        	String query = "INSERT INTO order_item ( order_id, item_id, quantity ) VALUES ";		
+    		for (ProductBean item : items) { query += "( "+orderId+", "+item.getId()+", "+item.getQuantity()+" ),"; }
+    		query = query.substring(0, query.length()-1);
+    		System.out.println(query);
+    		conn = new DataManager().getConnection();
+
             pst = conn.prepareStatement(query);
             status = pst.executeUpdate();  
   
@@ -59,8 +59,8 @@ public class OrderDAO {
 					+ "( NOW(), NULL, "+orderTotal+", "+subTotal+", "+taxes+", "+deliveryCharge+", "+discount+", '"+payment_method+"', "+deliveryAddressId+", "+customerId+", 0, 0, 1 )";
 
             conn = new DataManager().getConnection();
-            pst = conn.prepareStatement(query);
-            int status = pst.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+            pst = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            int status = pst.executeUpdate();
             if(status > 0){
 	            ResultSet rs = pst.getGeneratedKeys();
 	            rs.next();
@@ -94,13 +94,14 @@ public class OrderDAO {
   
             pst = conn.prepareStatement(""
             		+ "SELECT `order`.id, `order`.date_in, order_item.item_id, "
-            		+ "order_item.quantity, item.`name`, stage.name as stage "
+            		+ "order_item.quantity, item.`name`, stage.`name` as stage , size.`name` as size "
             		+ "FROM `order` "
             		+ "INNER JOIN order_item ON `order`.id = order_item.order_id "
             		+ "INNER JOIN item ON item.id = order_item.item_id "
             		+ "INNER JOIN stage ON `order`.stage_id = stage.id "
-            		+ "WHERE `stage`.name IN ('Open', 'Preparing') "
-            		+ "ORDER BY `order`.id ASC");
+            		+ "INNER JOIN size ON item.size_id = size.id "
+            		+ "WHERE `stage`.`name` IN ('Open', 'Preparing') "
+            		+ "ORDER BY `order`.id, `name` ASC");
            
             rs = pst.executeQuery();
             // status = rs.next();
@@ -112,7 +113,8 @@ public class OrderDAO {
             			rs.getString("item_id"),
             			rs.getString("quantity"),
             			rs.getString("name"),
-            			rs.getString("stage")
+            			rs.getString("stage"),
+            			rs.getString("size")
             			);
             	KitchenBean.insertOrder(order);
             }

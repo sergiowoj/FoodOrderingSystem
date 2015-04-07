@@ -67,7 +67,7 @@ String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-function updateCheckoutAddressForm(response){
+function updateAddressForm(response){
 	$(".deliveryaddress input").attr('disabled', 'true');
 	$('#alias').attr('value', response['alias']);
 	$('#address1').attr('value', response['address1']);
@@ -79,7 +79,7 @@ function updateCheckoutAddressForm(response){
 	$('#buzzer').attr('value', response['buzzerNumber']);
 }
 
-function initialCheckoutAddressForm(){
+function initialAddressForm(page){
 	$.ajax({
         url : 'getAddresses.jsp',
         data : {},
@@ -90,14 +90,16 @@ function initialCheckoutAddressForm(){
         			options += "<option value='"+this["id"]+"'>"+this["alias"].capitalizeFirstLetter()+"</option>"
         		});
         		$('#selectaddress').html(options);
-        		$('#selectaddress').append("<option value='newaddress'>New Address</option>");
-        		updateCheckoutAddressForm(response[0]);
+        		if(page=='checkout'){
+        			$('#selectaddress').append("<option value='newaddress'>New Address</option>");
+        		}
+        		updateAddressForm(response[0]);
         	}
         }
     });
 }
 
-function changeCheckoutAddressForm(addressid){
+function changeAddressForm(addressid){
 	$.ajax({
         url : 'getAddresses.jsp',
         data : {},
@@ -106,7 +108,7 @@ function changeCheckoutAddressForm(addressid){
         	if(response.length != 0){
         		$.each(response, function(){
         			if(this["id"] == addressid){
-        				updateCheckoutAddressForm(this)
+        				updateAddressForm(this)
         			}
         		})
         	}
@@ -114,7 +116,7 @@ function changeCheckoutAddressForm(addressid){
     });
 }
 
-function clearCheckoutAddressForm(){
+function clearAddressForm(){
 	$(".deliveryaddress input").removeAttr('disabled');
 	$('#alias').attr('value', '');
 	$('#address1').attr('value', '');

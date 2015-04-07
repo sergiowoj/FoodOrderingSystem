@@ -20,26 +20,34 @@
 <t:header></t:header>
 
 <div class="container">
-	<h1><fmt:message key="contact.title.contact" /></h1>
-	<form method="post" action="">
-		<div class="form-group">
-			<label for="firstname"><fmt:message key="contact.label.firstName" /></label>
-			<input name="firstname" class="form-control" id="firstname" placeholder="<fmt:message key="contact.label.firstName" />">
+	<div class="container-fluid container-style">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="text">
+					<h1><fmt:message key="contact.title.contact" /></h1>
+					<form method="post" action="">
+						<div class="form-group">
+							<label for="firstname"><fmt:message key="contact.label.firstName" /></label>
+							<input name="firstname" class="form-control" id="firstname" placeholder="<fmt:message key="contact.label.firstName" />">
+						</div>
+						<div class="form-group">
+							<label for="lastname"><fmt:message key="contact.label.lastName" /></label>
+							<input name="lastname" class="form-control" id="lastname" placeholder="<fmt:message key="contact.label.lastName" />">
+						</div>
+						<div class="form-group">
+							<label for="email"><fmt:message key="contact.label.email" /></label>
+							<input name="email" class="form-control" id="email" placeholder="<fmt:message key="contact.label.email" />">
+						</div>
+						<div class="form-group">
+							<label for="email"><fmt:message key="contact.label.message" /></label>
+							<textarea rows="5" name="message" class="form-control" id="message" placeholder="<fmt:message key="contact.label.message" />"></textarea>
+						</div>
+						<button type="submit" class="btn btn-default pull-right"><fmt:message key="contact.button.send" /></button>
+					</form>
+				</div>
+			</div>
 		</div>
-		<div class="form-group">
-			<label for="lastname"><fmt:message key="contact.label.lastName" /></label>
-			<input name="lastname" class="form-control" id="lastname" placeholder="<fmt:message key="contact.label.lastName" />">
-		</div>
-		<div class="form-group">
-			<label for="email"><fmt:message key="contact.label.email" /></label>
-			<input name="email" class="form-control" id="email" placeholder="<fmt:message key="contact.label.email" />">
-		</div>
-		<div class="form-group">
-			<label for="email"><fmt:message key="contact.label.email" /></label>
-			<textarea rows="5" name="message" class="form-control" id="message" placeholder="<fmt:message key="contact.label.message" />"></textarea>
-		</div>
-		<button type="submit" class="btn btn-default pull-right"><fmt:message key="contact.button.send" /></button>
-	</form>
+	</div>
 </div>
 
 <t:footer></t:footer>

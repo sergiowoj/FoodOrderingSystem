@@ -7,7 +7,8 @@ import org.json.JSONArray;
 public class CustomerBean
 {
 	private String id;
-    private String password;    //Password    
+    private byte[] password;    //Password    
+    private byte[] salt;    	//Salt 
     private String firstName;   //First Name
     private String lastName;    //Last Name
     private String email;       //Email
@@ -19,11 +20,12 @@ public class CustomerBean
     private JSONArray addressesJSON; 
 
 	public CustomerBean(){
-    	
     }
     
-	public CustomerBean(String firstName, String lastName, String email,
+	public CustomerBean(byte[] password, byte[] salt, String firstName, String lastName, String email,
 			String phone, String phone2, String subscribed) {
+		this.password = password;
+		this.setSalt(salt);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -40,12 +42,20 @@ public class CustomerBean
 		this.id = id;
 	}
 
-	public String getPassword() {
+	public byte[] getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(byte[] password) {
 		this.password = password;
+	}
+
+	public byte[] getSalt() {
+		return salt;
+	}
+
+	public void setSalt(byte[] salt) {
+		this.salt = salt;
 	}
 
 	public String getFirstName() {
@@ -109,13 +119,13 @@ public class CustomerBean
 		return addressesJSON.toString();
 	}
 
-	@Override
-	public String toString() {
-		return "CustomerBean [password=" + password + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phone=" + phone + ", phone2=" + phone2 + ", subscribed="
-				+ subscribed + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "CustomerBean [password=" + password + ", firstName="
+//				+ firstName + ", lastName=" + lastName + ", email=" + email
+//				+ ", phone=" + phone + ", phone2=" + phone2 + ", subscribed="
+//				+ subscribed + "]";
+//	}
 
 	
 }

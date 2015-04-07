@@ -2,9 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +27,7 @@ public class LoginServlet extends HttpServlet {
   
         if(CustomerDAO.login(email, password)){
         	CustomerBean customer = CustomerDAO.getCustomer(email);
-        	
+        	System.out.println(customer.toString());
         	if(session!=null){
 	        	session.setAttribute("id", customer.getId());
 	        	session.setAttribute("firstname", customer.getFirstName());
@@ -39,7 +37,6 @@ public class LoginServlet extends HttpServlet {
         	}
         	
         	if(request.getParameter("origin").equals("menu")){
-
         		response.sendRedirect("checkout.jsp");
             } else {
             	response.sendRedirect("index.jsp");
@@ -47,9 +44,9 @@ public class LoginServlet extends HttpServlet {
         	  
         }    
         else{    
-            out.print("<p style=\"color:red\">Sorry username or password error</p>");    
-            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");    
-            rd.include(request,response);    
+            out.print("<p style=\"color:red\">Sorry username or password error</p>"); 
+            request.setAttribute("errorMessage", "Username or password incorrect.");
+            request.getRequestDispatcher("login.jsp").forward(request, response);   
         }    
   
         out.close();

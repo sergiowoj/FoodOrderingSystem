@@ -131,7 +131,8 @@ public class ProductBean implements Comparable<ProductBean>
 	}
 
 	public String getPriceOut() {
-		return outputFormat.format(this.price);
+		this.priceOut = outputFormat.format(this.price);
+		return priceOut;
 	}
 
 	public void setPriceOut(String priceOut) {
