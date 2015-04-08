@@ -3,6 +3,7 @@ package model;
 import java.sql.*;
 import java.util.ArrayList;
 
+import beans.DeliveryBean;
 import beans.KitchenBean;
 import beans.OrderBean;
 import beans.ProductBean;
@@ -104,7 +105,7 @@ public class OrderDAO {
             		+ "ORDER BY `order`.id, `name` ASC");
            
             rs = pst.executeQuery();
-            // status = rs.next();
+
             KitchenBean.clearOrdersList();
             while(rs.next()){
             	OrderBean order = new OrderBean(
@@ -117,6 +118,77 @@ public class OrderDAO {
             			rs.getString("size")
             			);
             	KitchenBean.insertOrder(order);
+            }
+            
+		} catch (Exception e) {  
+            System.out.println(e);  
+        } finally {  
+            if (conn != null) {  
+                try {  
+                    conn.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (pst != null) {  
+                try {  
+                    pst.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (rs != null) {  
+                try {  
+                    rs.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+        }  
+	}
+	
+	public static void updateDelivery(){
+		ResultSet rs = null;
+		try {  
+			conn = new DataManager().getConnection();
+  
+            pst = conn.prepareStatement(""
+            		+ "SELECT `order`.id as order_id, `order`.date_in, order_item.item_id, "
+            		+ "order_item.quantity, item.`name`, stage.`name` as stage , size.`name` as size, "
+            		+ "address.address1, address.address2, address.buzzer_number, address.city, "
+            		+ "address.postal_code, address.province, address.phone "
+            		+ "FROM `order` "
+            		+ "INNER JOIN order_item ON `order`.id = order_item.order_id "
+            		+ "INNER JOIN item ON item.id = order_item.item_id "
+            		+ "INNER JOIN stage ON `order`.stage_id = stage.id "
+            		+ "INNER JOIN size ON item.size_id = size.id "
+            		+ "INNER JOIN address ON `order`.delivery_address_id = address.id "
+            		+ "WHERE `stage`.`name` IN ('Ready', 'Out for delivery') "
+            		+ "ORDER BY `order`.id, `name` ASC");
+           
+            rs = pst.executeQuery();
+            
+            DeliveryBean.clearOrdersList();
+            while(rs.next()){
+            	OrderBean order = new OrderBean(
+            			rs.getString("order_id"),
+            			rs.getString("date_in"),
+            			rs.getString("item_id"),
+            			rs.getString("quantity"),
+            			rs.getString("name"),
+            			rs.getString("stage"),
+            			rs.getString("size")
+            		);
+            	
+            	order.setAddress1(rs.getString("address1"));
+            	order.setAddress2(rs.getString("address2"));
+            	order.setBuzzerNumber(rs.getString("buzzer_number"));
+            	order.setCity(rs.getString("city"));
+            	order.setPhone(rs.getString("phone"));
+            	order.setPostalCode(rs.getString("postal_code"));
+            	order.setProvince(rs.getString("province"));
+            	
+            	DeliveryBean.insertOrder(order);
             }
             
 		} catch (Exception e) {  

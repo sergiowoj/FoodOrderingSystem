@@ -66,8 +66,9 @@ $(document).ready(function() {
 </head>
 <body>	
 	<div class="container">
-		<h1>KITCHEN</h1>
-		<hr>
+		<div class="kitchen">
+			<h1>Orders to be prepared</h1>
+			<hr>
 		
 			<%
 			String order_id = "";
@@ -90,9 +91,13 @@ $(document).ready(function() {
 					order_id = order.getId();
 					out.println("<div class=\"singleorder\">");
 					out.println("<div class=\"number\"> Order # <b>"+order_id+"</b></div>");
-					out.println("<button name=\"ready\" id=\""+order_id+"\" style=\"margin-left:5px;\" class=\"ready btn btn-success btn-lg pull-right\">Ready!</button>");
-					out.println("<button name=\"preparing\" id=\""+order_id+"\" class=\"preparing btn btn-primary btn-lg pull-right\" "+preparingBtnDisabled+">"+preparingBtnDisplay+"</button>");
-					//out.println("<span style=\"float:right; margin: 0 20px 0 0;\"><button class=\"btn btn-link btn-lg\">Cancel order</button></span>");					
+					
+					out.println("<div class=\"buttons pull-right\">");
+						out.println("<button name=\"preparing\" id=\""+order_id+"\" class=\"preparing btn btn-primary btn-lg\" "+preparingBtnDisabled+">"+preparingBtnDisplay+"</button>");
+						out.println("<button name=\"ready\" id=\""+order_id+"\"class=\"ready btn btn-success btn-lg\">Ready!</button>");
+					out.println("</div>");
+					
+										
 					out.println("<div class=\"items\">");
 					
 					count++;
@@ -104,17 +109,16 @@ $(document).ready(function() {
 			</div>
 
 			<%
-				if(!order.getId().equals(order_id)){
-					
-					out.println("lol");
-				}
 			}
-			
+			if(count==1){
+				out.println("</div>");
+			}
 			if(count>1)
 				out.println("</div>");
 				out.println("<div class=\"clearfix\"></div>");
 				out.println("</div>");
 			%>
+		</div>
 	</div>
 
 	<t:footer></t:footer>

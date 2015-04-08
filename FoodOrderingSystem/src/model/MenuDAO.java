@@ -17,21 +17,21 @@ public class MenuDAO {
     private static PreparedStatement pst = null;
     private static ArrayList<ProductBean> menu ;
     
-	public static ArrayList<ProductBean> listMenu(){
+	public static ArrayList<ProductBean> listMenu(String lng){
 		ResultSet rs = null;
 		
 		try {  
             //Class.forName(driver).newInstance();  
 			conn = new DataManager().getConnection();
   
-            pst = conn.prepareStatement(""
-            		+ "SELECT item.id as id, item.name as name, item.price as price, "
-            		+ "item.description as description, item.ingredients as ingredients, "
-            		+ "size.name as size, category.name as category "
-            		+ "FROM item "
-            		+ "INNER JOIN size ON item.size_id = size.id "
-            		+ "INNER JOIN category ON item.category_id = category.id "
-            		+ "ORDER BY item.id;");
+			if(lng.equalsIgnoreCase("en"))
+	            pst = conn.prepareStatement(""
+	            		+ "SELECT *"
+	            		+ "FROM view_en ");
+			else
+	            pst = conn.prepareStatement(""
+	            		+ "SELECT *"
+	            		+ "FROM view_pt ");
             
             rs = pst.executeQuery();
             menu = new ArrayList<ProductBean>();

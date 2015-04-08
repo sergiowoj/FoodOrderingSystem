@@ -30,13 +30,13 @@
 
 			<ul class="nav navbar-nav navbar-right">
 					<li>
-						<c:if test="${language.equals(\"en\") }">
+						<c:if test="${language.toString().split('_')[0].equals(\"en\") }">
 							<a href="?language=pt">Português</a>
 						</c:if>
-						<c:if test="${language.equals(\"pt\")}">
+						<c:if test="${language.toString().split('_')[0].equals(\"pt\")}">
 							<a href="?language=en">English</a>
 						</c:if>
-						<c:if test="${!language.equals(\"pt\") && !language.equals(\"en\")}">
+						<c:if test="${!language.toString().split('_')[0].equals(\"pt\") && !language.toString().split('_')[0].equals(\"en\")}">
 							<a href="?language=en">English</a>
 						</c:if>
 		        	</li>

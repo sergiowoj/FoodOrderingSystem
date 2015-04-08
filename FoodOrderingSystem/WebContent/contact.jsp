@@ -40,7 +40,7 @@
 						</div>
 						<div class="form-group">
 							<label for="email"><fmt:message key="contact.label.message" /></label>
-							<textarea rows="5" name="message" class="form-control" id="message" placeholder="<fmt:message key="contact.label.message" />"></textarea>
+							<textarea rows="5" name="message" class="form-control" id="message" placeholder="<fmt:message key="contact.label.message" />" style="resize: none;"></textarea>
 						</div>
 						<button type="submit" class="btn btn-default pull-right"><fmt:message key="contact.button.send" /></button>
 					</form>

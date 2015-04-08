@@ -12,6 +12,7 @@
 <c:set var="language"
 	value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}"
 	scope="session" />
+<c:set var="language2" value="${language}"/>	
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="languageResources.text" />
 
@@ -63,7 +64,8 @@
 				<div class="row">
 					<%
 						String category = "";
-						ArrayList<ProductBean> menu = MenuDAO.listMenu();
+						
+						ArrayList<ProductBean> menu = MenuDAO.listMenu(pageContext.getAttribute("language2").toString().split("_")[0]);
 
 						for (ProductBean product : menu) {
 							if (!product.getCategory().equals(category)) {
@@ -106,7 +108,7 @@
 			<div class="cart vert-menu-style col-xs-6 col-md-4">
 				<div class="myitems panel panel-primary">
 					<div class="panel-heading">
-						<h3 class="panel-title">My items</h3>
+						<h3 class="panel-title"><fmt:message key="menu.label.myItems" /></h3>
 					</div>
 					<div class="items col-xs-12">
 						<ul id="itemList">
@@ -121,7 +123,7 @@
 							if (session.getAttribute("id") == null) {
 						%>
 						<button class="btn btn-block btn-default placeOrder"
-							id="showLoginModal">Checkout</button>
+							id="showLoginModal"><fmt:message key="menu.button.checkout" /></button>
 						<%
 							} else {
 						%>

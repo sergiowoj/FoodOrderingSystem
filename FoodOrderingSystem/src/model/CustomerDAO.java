@@ -16,6 +16,7 @@ public class CustomerDAO {
 	private static Connection conn = null;  
 	private static PreparedStatement pst = null;
 	private static CustomerBean customer ;
+	
 	public static boolean login(String email, String password){
 		ResultSet rs = null;
 		boolean status = false;

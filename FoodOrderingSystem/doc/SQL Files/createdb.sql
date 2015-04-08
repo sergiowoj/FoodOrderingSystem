@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `fos` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `fos`;
 -- MySQL dump 10.13  Distrib 5.6.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: fos
@@ -35,7 +37,7 @@ CREATE TABLE `address` (
   `customer_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,6 +50,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
+  `nome` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `CateogoryID_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
@@ -67,11 +70,12 @@ CREATE TABLE `customer` (
   `phone` varchar(12) NOT NULL,
   `phone2` varchar(12) DEFAULT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` blob NOT NULL,
+  `salt` blob NOT NULL,
   `subscribed` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `CustomerID_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,12 +107,14 @@ DROP TABLE IF EXISTS `item`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `item` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` char(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `price` decimal(6,2) NOT NULL,
   `description` varchar(500) DEFAULT NULL,
   `ingredients` varchar(500) DEFAULT NULL,
   `size_id` int(11) NOT NULL DEFAULT '2',
   `category_id` int(11) NOT NULL DEFAULT '0',
+  `name_pt` varchar(50) NOT NULL,
+  `description_pt` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ItemID_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
@@ -138,7 +144,7 @@ CREATE TABLE `order` (
   `stage_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `OrderID_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +161,7 @@ CREATE TABLE `order_item` (
   `quantity` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=215 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -168,6 +174,7 @@ DROP TABLE IF EXISTS `size`;
 CREATE TABLE `size` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
+  `nome` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `SizeID_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -183,10 +190,95 @@ DROP TABLE IF EXISTS `stage`;
 CREATE TABLE `stage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` char(50) NOT NULL,
+  `nome` char(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary table structure for view `view_en`
+--
+
+DROP TABLE IF EXISTS `view_en`;
+/*!50001 DROP VIEW IF EXISTS `view_en`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `view_en` (
+  `id` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `price` tinyint NOT NULL,
+  `description` tinyint NOT NULL,
+  `ingredients` tinyint NOT NULL,
+  `size` tinyint NOT NULL,
+  `category` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `view_pt`
+--
+
+DROP TABLE IF EXISTS `view_pt`;
+/*!50001 DROP VIEW IF EXISTS `view_pt`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `view_pt` (
+  `id` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `price` tinyint NOT NULL,
+  `description` tinyint NOT NULL,
+  `ingredients` tinyint NOT NULL,
+  `size` tinyint NOT NULL,
+  `category` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping events for database 'fos'
+--
+
+--
+-- Dumping routines for database 'fos'
+--
+
+--
+-- Final view structure for view `view_en`
+--
+
+/*!50001 DROP TABLE IF EXISTS `view_en`*/;
+/*!50001 DROP VIEW IF EXISTS `view_en`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `view_en` AS select `item`.`id` AS `id`,`item`.`name` AS `name`,`item`.`price` AS `price`,`item`.`description` AS `description`,`item`.`ingredients` AS `ingredients`,`size`.`name` AS `size`,`category`.`name` AS `category` from ((`item` join `size` on((`item`.`size_id` = `size`.`id`))) join `category` on((`item`.`category_id` = `category`.`id`))) order by `item`.`id` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `view_pt`
+--
+
+/*!50001 DROP TABLE IF EXISTS `view_pt`*/;
+/*!50001 DROP VIEW IF EXISTS `view_pt`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `view_pt` AS select `item`.`id` AS `id`,`item`.`name_pt` AS `name`,`item`.`price` AS `price`,`item`.`description_pt` AS `description`,`item`.`ingredients` AS `ingredients`,`size`.`nome` AS `size`,`category`.`nome` AS `category` from ((`item` join `size` on((`item`.`size_id` = `size`.`id`))) join `category` on((`item`.`category_id` = `category`.`id`))) order by `item`.`id` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -197,4 +289,4 @@ CREATE TABLE `stage` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-06  2:03:12
+-- Dump completed on 2015-04-08  1:24:15
