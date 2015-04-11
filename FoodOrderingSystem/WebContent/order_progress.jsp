@@ -3,8 +3,24 @@
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
 <%
+	boolean isLogged = false;
 	//Check if user is already logged in. If yes, redirect to Home page.
-	if(session.getAttribute("id") == null) response.sendRedirect("login.jsp");
+	if(session.getAttribute("id") == null){ response.sendRedirect("login.jsp"); }
+	else { isLogged = true; }
+
+	boolean isOwner = OrderDAO.checkOrderOwner(request.getParameter("oid").toString(), session.getAttribute("id").toString());
+	
+	
+
+	String orderId;
+	ArrayList<ProductBean> items = null;
+	String[] order = null;
+	if(isOwner){
+		orderId = request.getParameter("oid").toString();
+		items = OrderDAO.getItems(orderId);
+		order = OrderDAO.getOrder(orderId);
+		order = OrderDAO.getOrder(orderId);
+	}
 %>
 
 <%@ page import="java.util.ArrayList"%>
@@ -16,31 +32,34 @@
 
 
 
-<%
-	String orderId = request.getParameter("oid").toString();
-	ArrayList<ProductBean> items = OrderDAO.getItems(orderId);
-	String[] order = OrderDAO.getOrder(orderId);
-	String stageOpen ="", stagePrep="", stageReady="", stageOut="", stageDeliv="";
-	
-	if(order[13].equals("Open")) { stageOpen = "stage-active"; stagePrep = "stage-next"; stageReady = "stage-next"; stageOut = "stage-next"; stageDeliv = "stage-next"; }
-	else if(order[13].equals("Preparing")) { stageOpen = "stage-prev"; stagePrep = "stage-active"; stageReady = "stage-next"; stageOut = "stage-next"; stageDeliv = "stage-next";}
-	else if(order[13].equals("Ready")) { stageOpen = "stage-prev"; stagePrep = "stage-prev"; stageReady = "stage-active"; stageOut = "stage-next"; stageDeliv = "stage-next";}
-	else if(order[13].equals("Out for delivery")) { stageOpen = "stage-prev"; stagePrep = "stage-prev"; stageReady = "stage-prev"; stageOut = "stage-active"; stageDeliv = "stage-next";}
-	else if(order[13].equals("Delivered")) { stageOpen = "stage-prev"; stagePrep = "stage-prev"; stageReady = "stage-prev"; stageOut = "stage-prev"; stageDeliv = "stage-active"; }
-%>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<% if(!order[13].equals("Delivered")) { %><meta http-equiv="REFRESH" content="5"> <% } %>
+<% 
+	if(isOwner){
+		if(!order[13].equals("Delivered")) { %>
+		<meta http-equiv="REFRESH" content="5"> 
+	<% 	}
+	}%>
 <title></title>
 <t:headcontents></t:headcontents>
 
 </head>
 <body>
 	<t:header></t:header>
-
+	<%
+	if(isLogged){
+		if(isOwner){		
+			
+			String stageOpen = "", stagePrep="", stageReady="", stageOut="", stageDeliv="";
+			if(order[13].equals("Open")) { stageOpen = "stage-active"; stagePrep = "stage-next"; stageReady = "stage-next"; stageOut = "stage-next"; stageDeliv = "stage-next"; }
+			else if(order[13].equals("Preparing")) { stageOpen = "stage-prev"; stagePrep = "stage-active"; stageReady = "stage-next"; stageOut = "stage-next"; stageDeliv = "stage-next";}
+			else if(order[13].equals("Ready")) { stageOpen = "stage-prev"; stagePrep = "stage-prev"; stageReady = "stage-active"; stageOut = "stage-next"; stageDeliv = "stage-next";}
+			else if(order[13].equals("Out for delivery")) { stageOpen = "stage-prev"; stagePrep = "stage-prev"; stageReady = "stage-prev"; stageOut = "stage-active"; stageDeliv = "stage-next";}
+			else if(order[13].equals("Delivered")) { stageOpen = "stage-prev"; stagePrep = "stage-prev"; stageReady = "stage-prev"; stageOut = "stage-prev"; stageDeliv = "stage-active"; }
+	
+	%>
 	<div class="container container-style">
 		<div class="container-fluid">
 			<h2>Order Progress</h2>
@@ -111,7 +130,19 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<% 
+		} else { %>
+			<div class="container">
+				<div class="container-fluid">
+					<div class="alert alert-danger" role="alert">
+						This order does not exist.
+					</div>	
+				</div>
+			</div>
+		<%}
+		
+	} %>
 	<t:footer></t:footer>
 </body>
 </html>

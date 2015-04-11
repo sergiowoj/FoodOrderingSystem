@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import beans.AddressBean;
@@ -29,7 +30,7 @@ public class CustomerDAO {
 			pst.setString(1, email);
 			
 			rs = pst.executeQuery();
-			//status  = rs.next();
+
 			while(rs.next()){
 				if(pw.authenticate(password, rs.getBytes("password"), rs.getBytes("salt"))){
 					status = true;
@@ -126,7 +127,7 @@ public class CustomerDAO {
 					+ "( alias, address1, address2 ,"
 					+ "city, province, postal_code, "
 					+ "phone, buzzer_number, customer_id )" 
-					+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )");
+					+ "VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? )", Statement.RETURN_GENERATED_KEYS);
 
 			pst.setString(1, alias);  
 			pst.setString(2, address1);  
@@ -138,13 +139,12 @@ public class CustomerDAO {
 			pst.setString(8, buzzerNumber);
 			pst.setString(9, customerId);
 
-			pst.executeUpdate(); 
-
-			ResultSet result = 
-					conn.prepareStatement("SELECT id FROM address WHERE customer_id = "+customerId+" AND alias = '"+alias+"'")
-					.executeQuery();
-			result.next();
-			id = result.getString("id");
+            int status = pst.executeUpdate();
+            if(status > 0){
+	            ResultSet rs = pst.getGeneratedKeys();
+	            rs.next();
+	            id = rs.getString(1);
+            }
 
 		} catch (Exception e) {  
 			System.out.println(e);  

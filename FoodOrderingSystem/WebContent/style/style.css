@@ -5,7 +5,7 @@ html {
 body {
 	/* Margin bottom by footer height */
 	margin-bottom: 60px;
-	background: url('http://www.mipork.org/ImageGallery/Recipes/HR/BBQ_Pulled_Pork_Pizza_HR.jpg') no-repeat center center fixed; 
+	background: url('../img/bg.jpg') no-repeat center center fixed; 
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

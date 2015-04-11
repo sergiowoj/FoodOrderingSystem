@@ -11,10 +11,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <title>Contact - Food Ordering System</title>
 <t:headcontents></t:headcontents>
-
+<script src="js/jquery.validate.min.js"> </script>
+<script src="js/register-form-validation.js"> </script>
+<c:set var="locale" value="${language}"/>
+    <c:if test="${locale == 'pt'}">
+        <script src="js/messages_pt.js" type="text/javascript"> </script>
+    </c:if> 
 </head>
 <body>
 <t:header></t:header>
@@ -25,7 +32,7 @@
 			<div class="col-md-12">
 				<div class="text">
 					<h1><fmt:message key="contact.title.contact" /></h1>
-					<form method="post" action="">
+					<form method="post" id="contactform" action="mailto:sergioclc@yahoo.com.br" >
 						<div class="form-group">
 							<label for="firstname"><fmt:message key="contact.label.firstName" /></label>
 							<input name="firstname" class="form-control" id="firstname" placeholder="<fmt:message key="contact.label.firstName" />">

@@ -29,8 +29,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><fmt:message key="profile.label.userProfile" /></title>
 <t:headcontents></t:headcontents>
+<script src="js/jquery.validate.min.js"> </script>
+<script src="js/register-form-validation.js"> </script>
+<c:set var="locale" value="${language}"/>
+<c:if test="${locale == 'pt'}">
+    <script src="js/messages_pt.js" type="text/javascript"> </script>
+</c:if> 
 
 <script>
+
 $(document).ready(function(){
 	$("#profileForm").css('display', 'block');
 	$(".showContent").click(function(event){
@@ -65,6 +72,10 @@ $(document).ready(function(){
 
 </script>
 
+ <c:set var="locale" value="${language}"/>
+    <c:if test="${locale == 'pt'}">
+        <script src="js/messages_pt.js" type="text/javascript"> </script>
+    </c:if> 
 </head>
 <body>
 <t:header></t:header>
@@ -87,7 +98,7 @@ $(document).ready(function(){
 
         <div style="display:none" id="profileForm" class="col-md-9">
         	<h3><fmt:message key="profile.label.updateProfile" /></h3>
-				<form action="profileChange" method="post">
+				<form action="profileChange" id="profileChange" method="post">
 					<div class="form-group">
 						<label for="firstname"><fmt:message key="profile.label.firstName" /></label> <input name="firstname"
 							class="form-control" id="firstname"
@@ -127,26 +138,24 @@ $(document).ready(function(){
 			
         <div style="display:none" id="pwdForm" class="col-md-9" >
         <h3><fmt:message key="profile.button.changePassword" /></h3>
-				<form action="pwdChange" method="post">
+				<form action="pwdChange" id="pwdChange" method="post">
 					<div class="form-group">
-						<label for="password"><fmt:message key="profile.label.password" /></label> <input name="password"
-							class="form-control" id="password"
-							placeholder="<fmt:message key="profile.textbox.enterPassword" />">
+						<label for="password"><fmt:message key="profile.label.password" /></label> 
+						<input type="password" name="password" class="form-control" id="password" placeholder="<fmt:message key="profile.textbox.enterPassword" />">
 					</div>
 					<div class="form-group">
-						<label for="password-conf"><fmt:message key="profile.label.confPassword" /></label> <input
-							name="password-conf" class="form-control" id="password-conf"
-							placeholder="<fmt:message key="profile.textbox.confPassword" />">
-							<input name= "control" type="hidden" value="pwd">
+						<label for="password-conf"><fmt:message key="profile.label.confPassword" /></label> 
+						<input type="password" name="password_again" class="form-control" id="password_again" placeholder="<fmt:message key="profile.textbox.confPassword"/>">
+						<input name= "control" type="hidden" value="pwd">
 					</div>
 					
 					<button type="submit" class="btn btn-primary pull-right"><fmt:message key="profile.button.change" /></button>
 				</form>
-			</div>   <!-- END PWD FROM --> 
-        
-        <div style="display:none" id="addressForm" class="col-md-9" >
+			</div>   <!-- END PWD FROM -->
+
+			<div style="display:none" id="addressForm" class="col-md-9" >
 				<h3><fmt:message key="profile.label.manageAddresses" /></h3>
-				<form action="changeAddress" method="post">
+				<form action="changeAddress" id="changeAddress" method="post">
 					<div class="form-group">
 						<label for="selectaddress"><fmt:message key="profile.label.selectAddresses" /></label>
 						<select class="form-control btn-primary" name="selectaddress" id="selectaddress">
@@ -154,20 +163,20 @@ $(document).ready(function(){
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="address1"><fmt:message key="profile.label.addressLine1" /></label> <input
-							name="address1" class="form-control" id="address1"
+						<label for="address1"><fmt:message key="profile.label.addressLine1" /></label> 
+						<input name="address1" class="form-control" id="address1"
 							placeholder="<fmt:message key="profile.textbox.address1" />"
 							value="">
 					</div>
 					<div class="form-group">
-						<label for="address2"><fmt:message key="profile.label.addressLine2" /></label> <input
-							name="address2" class="form-control" id="address2"
+						<label for="address2"><fmt:message key="profile.label.addressLine2" /></label> 
+						<input name="address2" class="form-control" id="address2"
 							placeholder="<fmt:message key="profile.textbox.address2" />"
 							value="">
 					</div>
 					<div class="form-group">
-						<label for="city"><fmt:message key="profile.label.city" /></label> <input name="city"
-						placeholder="<fmt:message key="profile.textbox.city" />"
+						<label for="city"><fmt:message key="profile.label.city" /></label> 
+						<input name="city" placeholder="<fmt:message key="profile.textbox.city" />"
 							class="form-control" id="city" value="">
 					</div>
 					<div class="form-group">

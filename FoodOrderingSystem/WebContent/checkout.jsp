@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="t" tagdir="/WEB-INF/tags"%>
+
+<!-- Internationalization imports -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
+<fmt:setLocale value="${language}" />
+<fmt:setBundle basename="languageResources.text" />
+
 <%
 	//Check if user is already logged in. If yes, redirect to Home page.
 	if(session.getAttribute("id") == null) response.sendRedirect("login.jsp");
@@ -16,10 +24,12 @@
 
 
 <%
-	cart.calculateOrder();
-	cart.setUserId(session.getAttribute("id").toString());
-    customer.setAddresses(CustomerDAO.getCustomerAddresses(customer.getId()));
-	request.getSession().setAttribute("cart", cart);
+	if(session.getAttribute("id") != null){
+		cart.calculateOrder();
+		cart.setUserId(session.getAttribute("id").toString());
+	    customer.setAddresses(CustomerDAO.getCustomerAddresses(customer.getId()));
+		request.getSession().setAttribute("cart", cart);
+	}
 %>
 
 
@@ -29,6 +39,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title></title>
 <t:headcontents></t:headcontents>
+
+<script src="js/jquery.validate.min.js"> </script>
+<script src="js/register-form-validation.js"> </script>
+<c:set var="locale" value="${language}"/>
+<c:if test="${locale == 'pt'}">
+    <script src="js/messages_pt.js" type="text/javascript"> </script>
+</c:if> 
 
 <script>
 	$(document).ready(function() {
@@ -103,7 +120,7 @@
 					<td>$ <%=cart.getOrderTotal()%></td>
 				</tr>
 			</table>
-			<form method="post" action="checkout">
+			<form method="post" action="checkout" id="checkout">
 				<div class="address">
 					<h3>Delivery address</h3>
 					

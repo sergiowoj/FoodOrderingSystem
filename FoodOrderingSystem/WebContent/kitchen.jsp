@@ -15,7 +15,7 @@ ArrayList<OrderBean> orders = KitchenBean.getOrders();
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" >
-<META http-equiv="REFRESH" content="100">
+<META http-equiv="REFRESH" content="10">
 
 <title>Kitchen</title>
 

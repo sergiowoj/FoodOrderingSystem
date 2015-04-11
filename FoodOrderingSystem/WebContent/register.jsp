@@ -20,6 +20,13 @@
 <title><fmt:message key="register.title" /></title>
 <t:headcontents></t:headcontents>
 
+<script src="js/jquery.validate.min.js"> </script>
+<script src="js/register-form-validation.js"> </script>
+<c:set var="locale" value="${language}"/>
+<c:if test="${locale == 'pt'}">
+    <script src="js/messages_pt.js" type="text/javascript"> </script>
+</c:if> 
+
 </head>
 <body>
 <t:header></t:header>
@@ -32,7 +39,7 @@
 	<h1><fmt:message key="register.label.register" /></h1>
 	<hr>
 	<h3><fmt:message key="register.label.information" /></h3>
-	<form action="register" method="post">
+	<form action="register" method="post" id="register_form">
 	  <div class="form-group">
 	    <label for="firstname"><fmt:message key="register.label.firstName" /></label>
 	    <input name="firstname" class="form-control" id="firstname" placeholder="<fmt:message key="register.textbox.firstName" />">

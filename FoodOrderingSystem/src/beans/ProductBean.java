@@ -1,6 +1,7 @@
 package beans;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 public class ProductBean implements Comparable<ProductBean>
 {
@@ -129,9 +130,24 @@ public class ProductBean implements Comparable<ProductBean>
 	public void setTotalPriceOut(String totalPriceOut) {
 		this.totalPriceOut = totalPriceOut;
 	}
-
-	public String getPriceOut() {
+	
+	public String getPriceOut(){
 		this.priceOut = outputFormat.format(this.price);
+		return priceOut;
+	}
+
+	public String getPriceOutLocale(String lng) {
+		java.text.NumberFormat formatBrazil = java.text.NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		java.text.NumberFormat formatCanada = java.text.NumberFormat.getCurrencyInstance(new Locale("en", "CA"));
+		String priceOut = "";
+		if(lng.equals("pt")){
+			priceOut = formatBrazil.format(this.price);
+		}
+		else if (lng.equals("en")){
+			priceOut = formatCanada.format(this.price);
+		}
+//		this.priceOut = outputFormat.format(this.price);
+		
 		return priceOut;
 	}
 

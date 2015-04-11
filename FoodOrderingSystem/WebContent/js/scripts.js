@@ -26,13 +26,13 @@ function updateCart(response){
 function addToCart(id){
 	var itemId = id;
 	var itemName = $('#productName'+itemId).text();
-	var itemPrice = $('#productPrice'+itemId).text();
+	var itemPrice = $('#productPrice'+itemId).attr('class');
     $.ajax({
         url : 'addtocart.jsp',
         data : {
             itemId : itemId,
-            itemName : $('#productName'+itemId).text(),
-            itemPrice : $('#productPrice'+itemId).text()
+            itemName : itemName,
+            itemPrice : itemPrice
         },
         success : function(response) {
         	updateCart(response);
@@ -69,14 +69,14 @@ String.prototype.capitalizeFirstLetter = function() {
 
 function updateAddressForm(response){
 	$(".deliveryaddress input").attr('disabled', 'true');
-	$('#alias').attr('value', response['alias']);
-	$('#address1').attr('value', response['address1']);
-	$('#address2').attr('value', response['address2']);
-	$('#city').attr('value', response['city']);
-	$('#province').attr('value', response['province']);
-	$('#postalcode').attr('value', response['postalCode']);
-	$('#phone').attr('value', response['phone']);
-	$('#buzzer').attr('value', response['buzzerNumber']);
+	$('#alias').val(response['alias']);
+	$('#address1').val(response['address1']);
+	$('#address2').val(response['address2']);
+	$('#city').val(response['city']);
+	$('#province').val(response['province']);
+	$('#postalcode').val( response['postalCode']);
+	$('#phone').val(response['phone']);
+	$('#buzzer').val(response['buzzerNumber']);
 }
 
 function initialAddressForm(page){
@@ -118,14 +118,14 @@ function changeAddressForm(addressid){
 
 function clearAddressForm(){
 	$(".deliveryaddress input").removeAttr('disabled');
-	$('#alias').attr('value', '');
-	$('#address1').attr('value', '');
-	$('#address2').attr('value', '');
-	$('#city').attr('value', '');
-	$('#province').attr('value', '');
-	$('#postalcode').attr('value', '');
-	$('#phone').attr('value', '');
-	$('#buzzer').attr('value', '');
+	$('#alias').val('');
+	$('#address1').val('');
+	$('#address2').val('');
+	$('#city').val('');
+	$('#province').val('');
+	$('#postalcode').val('');
+	$('#phone').val('');
+	$('#buzzer').val('');
 }
 
 

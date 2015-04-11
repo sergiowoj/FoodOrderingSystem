@@ -88,6 +88,50 @@ public class OrderDAO {
 		return orderId;
 	}
 	
+	public static boolean checkOrderOwner(String id, String customerId){
+		ResultSet rs = null;
+		try {  
+			conn = new DataManager().getConnection();
+  
+            pst = conn.prepareStatement("SELECT COUNT(*) as rowcount FROM `order` WHERE id = ? AND customer_id = ?");
+            
+            pst.setString(1, id);
+            pst.setString(2, customerId);
+           
+            rs = pst.executeQuery();
+            rs.next();
+            if(rs.getInt("rowcount") == 1){
+            	return true;
+            }
+            
+		} catch (Exception e) {  
+            System.out.println(e);  
+        } finally {  
+            if (conn != null) {  
+                try {  
+                    conn.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (pst != null) {  
+                try {  
+                    pst.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+            if (rs != null) {  
+                try {  
+                    rs.close();  
+                } catch (SQLException e) {  
+                    e.printStackTrace();  
+                }  
+            }  
+        }  
+		return false;
+	}
+	
 	public static void updateKitchen(){
 		ResultSet rs = null;
 		try {  

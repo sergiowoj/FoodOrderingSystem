@@ -24,6 +24,8 @@
 
 <t:headcontents></t:headcontents>
 
+
+
 <script>
 	$(document).ready(listCart());
 
@@ -90,7 +92,9 @@
 										id="<%=product.getId()%>">+</button>
 								</div>
 								<div class="price">
-									<span>$</span> <span id="productPrice<%=product.getId()%>"><%=product.getPriceOut()%></span>
+									<span id="productPrice<%=product.getId()%>" class="<%=product.getPriceOut()%>" >
+										$ <%=product.getPriceOut()%>
+									</span>
 								</div>
 
 								<div class="clearfix"></div>
@@ -153,7 +157,7 @@
 				<div class="modal-body">
 
 					<div class="modal-login">
-						<form action="login" method="post">
+						<form action="login" method="post" id="loginform">
 							<div class="form-group">
 								<label for="email"><fmt:message key="login.label.email" /></label>
 								<input name="email" class="form-control" id="email">

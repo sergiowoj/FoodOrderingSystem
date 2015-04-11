@@ -11,14 +11,23 @@
 <c:set var="language" value="${not empty param.language ? param.language : not empty language ? language : pageContext.request.locale}" scope="session" />
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="languageResources.text" />
-    
+   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <title></title>
 <t:headcontents></t:headcontents>
-
+<!--
+ <script src="js/jquery.validate.min.js"> </script>
+<script src="js/register-form-validation.js"> </script>
+<c:set var="locale" value="${language}"/>
+    <c:if test="${locale == 'pt'}">
+        <script src="js/messages_pt.js" type="text/javascript"> </script>
+    </c:if> 
+     -->
 </head>
 <body>
 <t:header></t:header>
@@ -38,7 +47,7 @@
 				<h1>
 					<fmt:message key="login.title.login" />
 				</h1>
-				<form action="login" method="post">
+				<form action="login" id="loginform" method="post">
 					<div class="form-group">
 						<label for="email"><fmt:message key="login.label.email" /></label>
 						<input name="email" class="form-control" id="email">
